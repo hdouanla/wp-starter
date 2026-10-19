@@ -1,0 +1,22 @@
+# Secrets et environnement local
+.env
+*.local
+
+# Archives premium : jamais dans Git (licences). Déposer les zips dans premium/.
+premium/*.zip
+premium/*.tar.gz
+
+# Sorties de scripts
+reports/
+*.log
+
+# macOS / éditeurs
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Claude Code — état local (les commands/, skills/ et settings.json sont versionnés)
+.claude/settings.local.json
+.claude/*.jsonl
+.claude/cache/

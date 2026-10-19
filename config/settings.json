@@ -1,0 +1,74 @@
+{
+  "$comment": "Réglages appliqués par scripts/php/apply-settings.php (via `wp eval-file`). Idempotent : peut être relancé sans effet de bord. `options` = wp_options brutes (clé → valeur). Les valeurs tableau/objet sont enregistrées telles quelles (sérialisées par WordPress).",
+
+  "language": {
+    "locale": "fr_CA",
+    "$comment": "Installé et activé par install.sh (`wp language core install fr_CA --activate`), puis traductions des extensions/thème."
+  },
+
+  "options": {
+    "timezone_string": "America/Toronto",
+    "gmt_offset": "",
+    "date_format": "j F Y",
+    "time_format": "H \\h i",
+    "start_of_week": 1,
+
+    "permalink_structure": "/%postname%/",
+    "category_base": "",
+    "tag_base": "",
+
+    "blog_public": 0,
+    "blogdescription": "",
+
+    "default_comment_status": "closed",
+    "default_ping_status": "closed",
+    "default_pingback_flag": 0,
+    "comment_registration": 1,
+    "comments_notify": 0,
+    "moderation_notify": 0,
+
+    "uploads_use_yearmonth_folders": 1,
+    "thumbnail_size_w": 300,
+    "thumbnail_size_h": 300,
+    "medium_size_w": 768,
+    "medium_size_h": 0,
+    "large_size_w": 1600,
+    "large_size_h": 0,
+    "medium_large_size_w": 1024,
+    "medium_large_size_h": 0,
+
+    "show_on_front": "posts",
+    "posts_per_page": 10,
+    "rss_use_excerpt": 1,
+
+    "users_can_register": 0,
+    "default_role": "subscriber",
+
+    "elementor_disable_color_schemes": "yes",
+    "elementor_disable_typography_schemes": "yes",
+    "elementor_unfiltered_files_upload": "1",
+    "elementor_font_display": "swap",
+
+    "hello_elementor_settings_description_meta_tag": "true"
+  },
+
+  "cleanup": {
+    "delete_sample_content": true,
+    "$comment_delete_sample_content": "Supprime « Bonjour tout le monde ! », « Page d'exemple », le brouillon « Politique de confidentialité » et le commentaire d'exemple. Aucune page n'est créée : le contenu varie d'un site à l'autre.",
+    "delete_default_themes_except": ["hello-elementor", "twentytwentyfive"],
+    "empty_trash": true,
+    "flush_rewrite_rules": true
+  },
+
+  "admin": {
+    "user_login": "repotzadmin",
+    "display_name": "RepOtz Admin",
+    "role": "administrator",
+    "$comment": "Mot de passe généré aléatoirement par install.sh / new-site.sh et affiché une seule fois. Le courriel vient de .env (ADMIN_EMAIL)."
+  },
+
+  "site_defaults": {
+    "blogname": "wp-starter",
+    "$comment": "Nom du site starter. new-site.sh le remplace par le nom du client."
+  }
+}

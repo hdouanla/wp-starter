@@ -1,0 +1,50 @@
+<!-- Gabarit JSON-LD de base — à coller dans HFCM (Header Footer Code Manager)
+     Emplacement : Header · Site entier · Priorité 1
+     Remplacer chaque {{PLACEHOLDER}}. Type : LocalBusiness (ou un sous-type schema.org plus précis :
+     Restaurant, AutoRepair, HomeAndConstructionBusiness, ProfessionalService, etc.) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "{{SCHEMA_TYPE}}",
+  "@id": "{{SITE_URL}}/#organization",
+  "name": "{{NOM_ENTREPRISE}}",
+  "url": "{{SITE_URL}}/",
+  "logo": "{{URL_LOGO}}",
+  "image": "{{URL_IMAGE}}",
+  "description": "{{DESCRIPTION_COURTE}}",
+  "telephone": "{{TELEPHONE_E164}}",
+  "email": "{{COURRIEL}}",
+  "priceRange": "{{PRICE_RANGE}}",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{{ADRESSE}}",
+    "addressLocality": "{{VILLE}}",
+    "addressRegion": "QC",
+    "postalCode": "{{CODE_POSTAL}}",
+    "addressCountry": "CA"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": {{LATITUDE}},
+    "longitude": {{LONGITUDE}}
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "09:00",
+      "closes": "17:00"
+    }
+  ],
+  "areaServed": [
+    { "@type": "City", "name": "{{VILLE}}" }
+  ],
+  "sameAs": [
+    "{{URL_FACEBOOK}}",
+    "{{URL_INSTAGRAM}}",
+    "{{URL_LINKEDIN}}",
+    "{{URL_GOOGLE_BUSINESS}}"
+  ],
+  "inLanguage": ["fr-CA", "en-CA"]
+}
+</script>
