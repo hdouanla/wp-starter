@@ -19,12 +19,14 @@ Site LocalWP vierge ───────────────▶ site wp-sta
 |-----------|--------|
 | WordPress | version épinglée dans `config/stack.json`, langue `fr_CA`, fuseau `America/Toronto` |
 | Thème | Hello Elementor (+ Twenty Twenty-Five conservé comme filet de sécurité) |
-| Extensions | Elementor, Elementor Pro*, Yoast SEO, Header Footer Code Manager, Polylang, Connect Polylang for Elementor, Classic Editor, Disable Comments, WPvivid Backup, Novamira* — versions dans `config/plugins.json` |
+| Extensions | Elementor, Elementor Pro*, Yoast SEO, Header Footer Code Manager, Polylang, Connect Polylang for Elementor, Classic Editor, Disable Comments, WPvivid Backup, Novamira** — versions dans `config/plugins.json` |
 | Réglages | permaliens `/%postname%/`, commentaires fermés, non indexé (`blog_public = 0`), contenu d'exemple supprimé, Elementor sans couleurs/polices par défaut, upload SVG — détail dans `config/settings.json` |
 | Compte | `repotzadmin`, mot de passe généré et affiché une seule fois |
 | Contenu | aucun (pages, menus et langues Polylang se font par site) |
 
-\* zip à déposer dans `premium/` (voir `premium/README.md`).
+\* Payant, licence requise ; zip téléchargé depuis le compte Elementor.
+\*\* Gratuit, mais distribué uniquement sur le site officiel [novamira.ai](https://novamira.ai/) (pas sur WordPress.org).
+Les deux sont des zips à déposer dans `premium/` — voir `premium/README.md` et §3 « Extensions hors WordPress.org ».
 
 ## Prérequis
 
@@ -83,9 +85,23 @@ git add -A && git commit -m "chore(update): …" && git push
 
 Puis, dans LocalWP : *Save as Blueprint* sur `wp-starter`, et suppression de l'ancien blueprint (menu principal → *Blueprints*).
 
-### Extensions premium
+### Extensions hors WordPress.org (Elementor Pro, Novamira)
 
-`update.sh` les met à jour de deux façons : un zip plus récent déposé dans `premium/` (installé par-dessus), ou l'updater du fournisseur quand la licence est active sur le starter (comme une extension WordPress.org). Sinon, `check-updates.sh` affiche « vérifier chez le fournisseur » avec l'URL — télécharger le zip, le déposer, relancer `update.sh --plugin <slug>`.
+Deux extensions ne viennent pas du dépôt WordPress.org et sont déclarées `source: zip` dans `config/plugins.json`. Le dossier `premium/` les accueille toutes les deux, même si une seule est payante.
+
+| | Elementor Pro | Novamira |
+|---|---|---|
+| Nature | Payant, licence par site | Gratuit (volet Pro optionnel) |
+| Où télécharger | [my.elementor.com](https://my.elementor.com/subscriptions/) | [novamira.ai](https://novamira.ai/) uniquement |
+| Fichier attendu dans `premium/` | `elementor-pro-<version>.zip` | `novamira-<version>.zip` |
+| `update_check` | `license` | `manual` |
+| Mise à jour automatique | Oui, si la licence est activée sur le starter : `update.sh` passe par l'updater Elementor comme pour une extension WordPress.org | Seulement si l'extension embarque son propre updater et le signale à WordPress ; sinon non |
+| Mise à jour par zip | Déposer le nouveau zip → `update.sh --plugin elementor-pro` | Déposer le nouveau zip → `update.sh --plugin novamira` |
+| Ce qu'affiche `check-updates.sh` sans licence / sans updater | « vérifier chez le fournisseur » + URL | « vérifier chez le fournisseur » + URL |
+
+Logique de `update.sh` pour ces deux-là : s'il trouve dans `premium/` un zip dont le numéro de version (dans le nom du fichier) est plus élevé que la version installée, il l'installe par-dessus (`wp plugin install --force`) ; sinon il tente `wp plugin update <slug>`, qui ne fait quelque chose que si un updater a signalé une nouvelle version. Dans tous les cas, l'absence de mise à jour pour ces extensions ne bloque pas les autres.
+
+Cycle manuel type pour Novamira : `/status` l'affiche « vérifier chez le fournisseur » → aller sur novamira.ai, télécharger la dernière version → déposer `novamira-<version>.zip` dans `premium/` (supprimer l'ancien zip) → `scripts/update.sh --plugin novamira` ou `/update novamira` → le lock et le CHANGELOG sont mis à jour → commit → *Save as Blueprint*.
 
 ### Ajouter / retirer une extension
 
@@ -128,4 +144,5 @@ Tous les scripts localisent le WordPress automatiquement : `../app/public` par r
 - **« WordPress introuvable »** → le dépôt n'est pas dans `~/Local Sites/wp-starter/starter/` : définir `WP_PATH` dans `.env`.
 - **`verify.sh` : HTTP injoignable** → démarrer le site dans LocalWP (bouton *Start site*).
 - **Mise à jour ratée** → `update.sh` a exporté la base dans `reports/db-before-update-*.sql` : `wp db import <fichier>`, puis `scripts/install.sh` réinstalle les versions du lock.
-- **Elementor Pro / Novamira « inconnu »** dans `check-updates.sh` → licence non active sur le starter : l'activer dans wp-admin, ou gérer par zip.
+- **Elementor Pro « vérifier chez le fournisseur »** dans `check-updates.sh` → licence non activée sur le starter : l'activer dans wp-admin (Elementor → Licence), ou gérer par zip.
+- **Novamira « vérifier chez le fournisseur »** → normal : l'extension n'est pas sur WordPress.org. Télécharger la nouvelle version sur novamira.ai et passer par `premium/` (§3).
