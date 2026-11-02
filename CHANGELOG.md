@@ -4,7 +4,7 @@ Une section par jour (`## AAAA-MM-JJ`), renommée « version — date » à la c
 
 <!-- nouvelles entrées sous cette ligne (ne pas déplacer : update.sh insère ici) -->
 
-## 2026-11-02
+## 2026.11 — 2026-11-02
 
 - Elementor Pro 4.3.2 → 4.3.3
 - Yoast SEO 28.7 → 28.8
