@@ -143,5 +143,5 @@ if (( ${#MISSING_PREMIUM[@]} )); then
   warn "Extensions premium non installées : ${MISSING_PREMIUM[*]+"${MISSING_PREMIUM[*]}"}"
   warn "Déposer les zips dans premium/ puis relancer scripts/install.sh"
 fi
-info "Étapes manuelles restantes : activer les licences (Elementor Pro, Novamira) dans wp-admin,"
+info "Étapes manuelles restantes : activer la licence Elementor Pro dans wp-admin,"
 info "configurer les langues Polylang si le site est bilingue, puis LocalWP → Save as Blueprint."

@@ -14,4 +14,4 @@ Règles :
 - Le numéro doit correspondre à `version` dans `config/plugins.json` une fois installé ; `verify.sh` le signale sinon.
 - Nouveau zip déposé → `scripts/update.sh --plugin <slug>` l'installe par-dessus l'ancienne version (`wp plugin install --force`), vérifie, met à jour le lock et le CHANGELOG.
 - **Elementor Pro** : la licence s'active dans wp-admin (Elementor → Licence) et est conservée dans le blueprint. Une fois active, `update.sh` récupère les mises à jour via l'updater Elementor sans passer par un zip.
-- **Novamira** : pas de dépôt WordPress.org ni de licence à activer pour la version gratuite. `check-updates.sh` affiche toujours « vérifier chez le fournisseur » : aller sur novamira.ai, télécharger, déposer, `update.sh --plugin novamira`.
+- **Novamira** : pas de dépôt WordPress.org ni de licence à activer pour la version gratuite. Si son updater ne signale rien, `check-updates.sh` affiche « vérifier chez le fournisseur » : aller sur novamira.ai, télécharger, déposer, `update.sh --plugin novamira`.

@@ -44,17 +44,17 @@ Les deux sont des zips à déposer dans `premium/` — voir `premium/README.md` 
    cd starter
    cp .env.example .env        # puis renseigner ADMIN_EMAIL
    ```
-3. **Déposer les zips premium** dans `starter/premium/` (`elementor-pro-<version>.zip`, `novamira-<version>.zip`).
+3. **Déposer les zips premium** dans `starter/premium/` (`elementor-pro-<version>.zip`, `novamira-<version>.zip`, avec le numéro de version dans le nom). Ils sont ignorés par Git : garder une copie ailleurs, car supprimer `starter/` ou le site les efface. Sans zip, l'installation continue sans l'extension ; relancer `scripts/install.sh` après le dépôt.
 4. **Ouvrir le shell du site** : dans LocalWP, site `wp-starter` → *Open site shell* (le Terminal s'ouvre dans `app/public` avec `wp` et `php` disponibles), puis :
    ```bash
    cd ../../starter
    scripts/install.sh
    ```
    Si des erreurs PHP s'affichent (Herd, Homebrew), voir « Dépannage ». Noter le mot de passe affiché. Avec Claude Code : `claude` puis `/install` fait la même chose avec un dry-run préalable.
-5. **Dans wp-admin** : activer les licences (Elementor → Licence ; Novamira → réglages). Vérifier Elementor → Réglages → Général.
-6. **Vérifier** : `scripts/verify.sh`.
+5. **Dans wp-admin** : activer la licence Elementor Pro (Elementor → Licence). Novamira n'a pas de licence à activer en version gratuite. Vérifier Elementor → Réglages → Général.
+6. **Vérifier** : `scripts/verify.sh`, toujours depuis le shell du site et la racine du dépôt. Résultat attendu : `Aucune erreur`. Si un zip est plus récent que le lock (« installé X, lock Y »), lancer `scripts/snapshot.sh`, puis commiter.
 7. **Mettre à jour** : wp-admin peut déjà annoncer des mises à jour, car l'installation pose les versions du lock et d'autres sont sorties depuis. C'est normal : suivre le §3, pas le bouton de wp-admin.
-8. **Figer** : LocalWP → site `wp-starter` → menu ⋯ → *Save as Blueprint* → nom `wp-starter 2026.10` (voir §4 pour la convention).
+8. **Figer** : LocalWP → site `wp-starter` → menu ⋯ → *Save as Blueprint* → nom `wp-starter 2026.11`, soit la dernière version du `CHANGELOG.md` (voir §4 pour la convention).
 
 ## 2. Créer un site client
 
@@ -128,8 +128,8 @@ scripts/setup-skills.sh     # remplace .claude/skills/ par la version trunk de W
 
 ## 4. Versions et blueprints
 
-- Tag Git `vAAAA.MM` (ex. `v2026.10`), `.2`, `.3` si plusieurs versions dans le mois. Créé par `/release`.
-- Blueprint LocalWP nommé pareil : `wp-starter 2026.10`. Un seul blueprint conservé à la fois ; les fichiers vivent dans `~/Library/Application Support/Local/blueprints/` et peuvent être sauvegardés ailleurs si besoin.
+- Tag Git `vAAAA.MM` (ex. `v2026.11`), `.2`, `.3` si plusieurs versions dans le mois. Créé par `/release`.
+- Blueprint LocalWP nommé pareil : `wp-starter 2026.11`. Un seul blueprint conservé à la fois ; les fichiers vivent dans `~/Library/Application Support/Local/blueprints/` et peuvent être sauvegardés ailleurs si besoin.
 - `CHANGELOG.md` relie les deux : chaque version liste les changements de versions d'extensions, les ajouts/retraits et les réglages.
 
 ## 5. Scripts
@@ -162,4 +162,4 @@ Tous les scripts localisent le WordPress automatiquement : `../app/public` par r
 - **Avertissement « mises à jour automatiques du cœur actives »** → `wp config set WP_AUTO_UPDATE_CORE false --raw` sur le starter. Ne pas le faire sur un site client.
 - **Mise à jour ratée** → `update.sh` a exporté la base dans `reports/db-before-update-*.sql` : `wp db import <fichier>`, puis `scripts/install.sh` réinstalle les versions du lock.
 - **Elementor Pro « vérifier chez le fournisseur »** dans `check-updates.sh` → licence non activée sur le starter : l'activer dans wp-admin (Elementor → Licence), ou gérer par zip.
-- **Novamira « vérifier chez le fournisseur »** → normal : l'extension n'est pas sur WordPress.org. Télécharger la nouvelle version sur novamira.ai et passer par `premium/` (§3).
+- **Novamira « vérifier chez le fournisseur »** → normal si son updater ne signale rien : l'extension n'est pas sur WordPress.org. Télécharger la nouvelle version sur novamira.ai et passer par `premium/` (§3).

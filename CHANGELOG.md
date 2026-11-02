@@ -21,6 +21,7 @@ Une section par jour (`## AAAA-MM-JJ`), renommée « version — date » à la c
 - Correctif : `install.sh --dry-run` et `check-updates.sh --json` ne plantent plus sur `wp eval-file`
 - Correctif : `check-updates.sh` n'affiche plus « Tout est à jour » quand des éléments manquent
 - Dépôt déplacé vers `hdouanla/wp-starter`
+- Documentation : parcours d'installation précisé (zips, licences, résultat attendu de `verify.sh`), nom du blueprint à jour
 
 ## 2026.10 — 2026-10-18
 
