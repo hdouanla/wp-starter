@@ -20,3 +20,7 @@ reports/
 .claude/settings.local.json
 .claude/*.jsonl
 .claude/cache/
+
+# Harness — outillage local
+.harness/
+.ignore
