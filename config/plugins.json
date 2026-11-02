@@ -14,7 +14,6 @@
             "name": "Elementor Pro",
             "version": "4.3.3",
             "source": "zip",
-            "zip_glob": "elementor-pro-*.zip",
             "update_check": "license",
             "vendor_url": "https://my.elementor.com/subscriptions/",
             "activate": true,
@@ -87,7 +86,6 @@
             "name": "Novamira",
             "version": "1.12.14",
             "source": "zip",
-            "zip_glob": "novamira-*.zip",
             "update_check": "manual",
             "vendor_url": "https://novamira.ai/",
             "activate": true

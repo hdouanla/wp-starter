@@ -53,6 +53,7 @@ else
   wpc user create "$ADMIN_LOGIN" "$EMAIL" --role=administrator --user_pass="$PASS" >/dev/null
   ok "$ADMIN_LOGIN créé"
 fi
+wpc user meta update "$ADMIN_LOGIN" show_admin_bar_front false >/dev/null
 # Invalider les sessions héritées du blueprint
 wpc user session destroy "$ADMIN_LOGIN" --all >/dev/null 2>&1 || true
 

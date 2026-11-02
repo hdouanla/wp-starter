@@ -80,8 +80,9 @@ while IFS= read -r slug; do
   # Cohérence zip premium ↔ lock
   if [[ "$(plugin_field "$slug" source)" == "zip" ]]; then
     zip="$(premium_zip_for "$slug")"
-    if [[ -n "$zip" ]] && ! grep -q "$lock_ver" <<<"$(basename "$zip")"; then
-      check_warn "$name : zip $(basename "$zip") ≠ lock $lock_ver"
+    if [[ -n "$zip" ]]; then
+      zip_ver="$(zip_plugin_version "$zip" "$slug")"
+      [[ "$zip_ver" == "$lock_ver" ]] || check_warn "$name : zip $(basename "$zip") en version $zip_ver, lock $lock_ver"
     fi
   fi
 done < <(plugin_slugs)
@@ -108,7 +109,16 @@ LOCALE_WANT="$(json_get "$CONFIG_DIR/settings.json" '$d["language"]["locale"]')"
 LOCALE_GOT="$(wpc language core list --status=active --field=language)"
 [[ "$LOCALE_GOT" == "$LOCALE_WANT" ]] && check_ok "langue $LOCALE_GOT" || check_fail "langue $LOCALE_GOT (attendu $LOCALE_WANT)"
 ADMIN_LOGIN="$(json_get "$CONFIG_DIR/settings.json" '$d["admin"]["user_login"]')"
-wpc user get "$ADMIN_LOGIN" --field=ID >/dev/null 2>&1 && check_ok "compte $ADMIN_LOGIN présent" || check_warn "compte $ADMIN_LOGIN absent"
+if wpc user get "$ADMIN_LOGIN" --field=ID >/dev/null 2>&1; then
+  check_ok "compte $ADMIN_LOGIN présent"
+  if [[ "$(wpc user meta get "$ADMIN_LOGIN" show_admin_bar_front 2>/dev/null || true)" == "false" ]]; then
+    check_ok "barre d'outils masquée sur le site pour $ADMIN_LOGIN"
+  else
+    check_warn "barre d'outils affichée sur le site pour $ADMIN_LOGIN (wp user meta update $ADMIN_LOGIN show_admin_bar_front false)"
+  fi
+else
+  check_warn "compte $ADMIN_LOGIN absent"
+fi
 
 # --- 6. Réponse HTTP --------------------------------------------------------
 SITE_URL="${SITE_URL:-$(wpc option get home)}"

@@ -4,6 +4,11 @@ Une section par jour (`## AAAA-MM-JJ`), renommée « version — date » à la c
 
 <!-- nouvelles entrées sous cette ligne (ne pas déplacer : update.sh insère ici) -->
 
+## 2026-11-02
+
+- Zips premium : plus besoin de les renommer, l'extension et sa version sont lues dans le zip (`zip_glob` retiré du lock)
+- Réglage : barre d'outils masquée sur le site pour les comptes existants (`install.sh`, `new-site.sh`, contrôle dans `verify.sh`)
+
 ## 2026.11 — 2026-11-02
 
 - Elementor Pro 4.3.2 → 4.3.3

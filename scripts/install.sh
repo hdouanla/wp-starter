@@ -76,7 +76,7 @@ while IFS= read -r slug; do
       zip)
         zip="$(premium_zip_for "$slug")"
         if [[ -z "$zip" ]]; then
-          warn "$name : aucun zip dans premium/ ($(plugin_field "$slug" zip_glob)) — ignoré"
+          warn "$name : aucun zip de cette extension dans premium/ — ignoré"
           MISSING_PREMIUM+=("$name")
           continue
         fi
@@ -134,6 +134,14 @@ else
     echo "   (affiché une seule fois — le noter dans le gestionnaire de mots de passe)"
   }
 fi
+
+# Barre d'outils masquée sur le site pour tous les comptes existants (réglage propre à chaque compte).
+if ! (( DRY_RUN )); then
+  while IFS= read -r user_id; do
+    [[ -n "$user_id" ]] && wpc user meta update "$user_id" show_admin_bar_front false >/dev/null
+  done < <(wpc user list --field=ID)
+fi
+ok "Barre d'outils masquée sur le site pour les comptes existants"
 
 # --- 6. Bilan ----------------------------------------------------------------
 title "Bilan"

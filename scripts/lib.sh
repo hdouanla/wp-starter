@@ -123,13 +123,38 @@ plugin_field() {
   php -r '$d = json_decode(file_get_contents($argv[1]), true); foreach ($d["plugins"] as $p) { if ($p["slug"] === $argv[2]) { $v = $p[$argv[3]] ?? ""; echo is_array($v) ? implode(",", $v) : (is_bool($v) ? ($v ? "1" : "0") : $v); break; } }' "$CONFIG_DIR/plugins.json" "$1" "$2"
 }
 
-# Zip premium le plus récent pour un slug (chaîne vide si absent)
+# version_gt <a> <b> : vrai si a est plus récent que b
+version_gt() {
+  php -r 'exit(version_compare($argv[1], $argv[2], ">") ? 0 : 1);' "$1" "$2"
+}
+
+# Version de l'extension <slug> dans un zip, lue dans l'en-tête de son fichier
+# principal (chaîne vide si ce zip ne contient pas cette extension).
+zip_plugin_version() {
+  local zip="$1" slug="$2" entry version=""
+  while IFS= read -r entry; do
+    version="$(unzip -p "$zip" "$entry" 2>/dev/null | awk '
+      /Plugin Name:/ { found = 1 }
+      /^[ \t\/*#@]*Version:/ && !v { v = $0; sub(/^[^:]*:[ \t]*/, "", v); sub(/[ \t\r]*$/, "", v) }
+      END { if (found && v) print v }' || true)"
+    [[ -n "$version" ]] && break
+  done < <(unzip -Z1 "$zip" 2>/dev/null | grep -E "^$slug/[^/]+\.php$" || true)
+  echo "$version"
+}
+
+# Zip le plus récent de l'extension <slug> dans premium/ (chaîne vide si absent).
+# Le nom du fichier n'a aucune importance : seul le contenu du zip compte.
 premium_zip_for() {
-  local glob
-  glob="$(plugin_field "$1" zip_glob)"
-  [[ -z "$glob" ]] && return 0
-  # shellcheck disable=SC2086
-  ls -1 "$PREMIUM_DIR"/$glob 2>/dev/null | sort -V | tail -n 1 || true
+  local slug="$1" zip version best="" best_version=""
+  for zip in "$PREMIUM_DIR"/*.zip; do
+    [[ -f "$zip" ]] || continue
+    version="$(zip_plugin_version "$zip" "$slug")"
+    [[ -n "$version" ]] || continue
+    if [[ -z "$best" ]] || version_gt "$version" "$best_version"; then
+      best="$zip"; best_version="$version"
+    fi
+  done
+  echo "$best"
 }
 
 # Génération d'un mot de passe fort (24 caractères)

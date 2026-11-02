@@ -21,7 +21,7 @@ Site LocalWP vierge ───────────────▶ site wp-sta
 | Thème | Hello Elementor (+ Twenty Twenty-Five conservé comme filet de sécurité) |
 | Extensions | Elementor, Elementor Pro*, Yoast SEO, Header Footer Code Manager, Polylang, Connect Polylang for Elementor, Classic Editor, Disable Comments, WPvivid Backup, Novamira** — versions dans `config/plugins.json` |
 | Réglages | permaliens `/%postname%/`, commentaires fermés, non indexé (`blog_public = 0`), contenu d'exemple supprimé, Elementor sans couleurs/polices par défaut, upload SVG — détail dans `config/settings.json`. Mises à jour automatiques du cœur coupées sur le starter seulement (§3) |
-| Compte | `repotzadmin`, mot de passe généré et affiché une seule fois |
+| Compte | `repotzadmin`, mot de passe généré et affiché une seule fois. Barre d'outils masquée sur le site (« Show Toolbar when viewing site » décoché) pour les comptes existants à l'installation |
 | Contenu | aucun (pages, menus et langues Polylang se font par site) |
 
 \* Payant, licence requise ; zip téléchargé depuis le compte Elementor.
@@ -44,7 +44,7 @@ Les deux sont des zips à déposer dans `premium/` — voir `premium/README.md` 
    cd starter
    cp .env.example .env        # puis renseigner ADMIN_EMAIL
    ```
-3. **Déposer les zips premium** dans `starter/premium/` (`elementor-pro-<version>.zip`, `novamira-<version>.zip`, avec le numéro de version dans le nom). Ils sont ignorés par Git : garder une copie ailleurs, car supprimer `starter/` ou le site les efface. Sans zip, l'installation continue sans l'extension ; relancer `scripts/install.sh` après le dépôt.
+3. **Déposer les zips premium** dans `starter/premium/` tels que téléchargés : pas besoin de les renommer, les scripts lisent l'extension et sa version dans le zip. Ils sont ignorés par Git : garder une copie ailleurs, car supprimer `starter/` ou le site les efface. Sans zip, l'installation continue sans l'extension ; relancer `scripts/install.sh` après le dépôt.
 4. **Ouvrir le shell du site** : dans LocalWP, site `wp-starter` → *Open site shell* (le Terminal s'ouvre dans `app/public` avec `wp` et `php` disponibles), puis :
    ```bash
    cd ../../starter
@@ -102,15 +102,15 @@ Deux extensions ne viennent pas du dépôt WordPress.org et sont déclarées `so
 |---|---|---|
 | Nature | Payant, licence par site | Gratuit (volet Pro optionnel) |
 | Où télécharger | [my.elementor.com](https://my.elementor.com/subscriptions/) | [novamira.ai](https://novamira.ai/) uniquement |
-| Fichier attendu dans `premium/` | `elementor-pro-<version>.zip` | `novamira-<version>.zip` |
+| Dans `premium/` | Le zip téléchargé, nom libre | Le zip téléchargé, nom libre |
 | `update_check` | `license` | `manual` |
 | Mise à jour automatique | Oui, si la licence est activée sur le starter : `update.sh` passe par l'updater Elementor comme pour une extension WordPress.org | Seulement si l'extension embarque son propre updater et le signale à WordPress ; sinon non |
 | Mise à jour par zip | Déposer le nouveau zip → `update.sh --plugin elementor-pro` | Déposer le nouveau zip → `update.sh --plugin novamira` |
 | Ce qu'affiche `check-updates.sh` sans licence / sans updater | « vérifier chez le fournisseur » + URL | « vérifier chez le fournisseur » + URL |
 
-Logique de `update.sh` pour ces deux-là : s'il trouve dans `premium/` un zip dont le numéro de version (dans le nom du fichier) est plus élevé que la version installée, il l'installe par-dessus (`wp plugin install --force`) ; sinon il tente `wp plugin update <slug>`, qui ne fait quelque chose que si un updater a signalé une nouvelle version. Dans tous les cas, l'absence de mise à jour pour ces extensions ne bloque pas les autres.
+Logique de `update.sh` pour ces deux-là : s'il trouve dans `premium/` un zip dont la version (lue dans le zip) est plus élevée que la version installée, il l'installe par-dessus (`wp plugin install --force`) ; sinon il tente `wp plugin update <slug>`, qui ne fait quelque chose que si un updater a signalé une nouvelle version. Dans tous les cas, l'absence de mise à jour pour ces extensions ne bloque pas les autres.
 
-Cycle manuel type pour Novamira : `/status` l'affiche « vérifier chez le fournisseur » → aller sur novamira.ai, télécharger la dernière version → déposer `novamira-<version>.zip` dans `premium/` (supprimer l'ancien zip) → `scripts/update.sh --plugin novamira` ou `/update novamira` → le lock et le CHANGELOG sont mis à jour → commit → *Save as Blueprint*.
+Cycle manuel type pour Novamira : `/status` l'affiche « vérifier chez le fournisseur » → aller sur novamira.ai, télécharger la dernière version → déposer le zip dans `premium/` (supprimer l'ancien zip) → `scripts/update.sh --plugin novamira` ou `/update novamira` → le lock et le CHANGELOG sont mis à jour → commit → *Save as Blueprint*.
 
 ### Ajouter / retirer une extension
 

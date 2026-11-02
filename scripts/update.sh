@@ -86,8 +86,7 @@ if (( DO_PLUGINS )); then
 
     if [[ "$source" == "zip" ]]; then
       zip="$(premium_zip_for "$slug")"
-      zipver="$(basename "${zip:-}" .zip | sed -E 's/^[a-z0-9-]+-([0-9][0-9.]*)$/\1/')"
-      if [[ -n "$zip" && -n "$zipver" ]] && php -r 'exit(version_compare($argv[1], $argv[2], ">") ? 0 : 1);' "$zipver" "$before"; then
+      if [[ -n "$zip" ]] && version_gt "$(zip_plugin_version "$zip" "$slug")" "$before"; then
         wpc plugin install "$zip" --force >/dev/null
         wpc plugin activate "$slug" >/dev/null 2>&1 || true
         UPDATED+=("$name $before → $(wpc plugin get "$slug" --field=version) (zip)")
