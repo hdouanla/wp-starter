@@ -9,7 +9,7 @@ Langue de travail : français (registre québécois), termes techniques en angla
 ```
 ~/Local Sites/wp-starter/
 ├── app/public/        ← le WordPress starter (géré par LocalWP ; jamais commité ici)
-└── starter/           ← CE DÉPÔT (git clone https://github.com/repotz/wp-starter)
+└── starter/           ← CE DÉPÔT (git clone https://github.com/hdouanla/wp-starter.git)
     ├── CLAUDE.md
     ├── config/        plugins.json (lock des extensions) · stack.json (cœur, thème, env) · settings.json (réglages) · snippets/
     ├── scripts/       install.sh · check-updates.sh · update.sh · verify.sh · snapshot.sh · new-site.sh · setup-skills.sh · php/

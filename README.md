@@ -40,7 +40,7 @@ Les deux sont des zips à déposer dans `premium/` — voir `premium/README.md` 
 2. **Cloner ce dépôt à côté de `app/`** :
    ```bash
    cd ~/Local\ Sites/wp-starter
-   git clone https://github.com/repotz/wp-starter starter
+   git clone https://github.com/hdouanla/wp-starter.git starter
    cd starter
    cp .env.example .env        # puis renseigner ADMIN_EMAIL
    ```
