@@ -19,7 +19,7 @@ Langue de travail : français (registre québécois), termes techniques en angla
     └── CHANGELOG.md
 ```
 
-Les scripts localisent le WordPress automatiquement (`../app/public`, ou `WP_PATH` dans `.env`). Lance-les toujours depuis la racine du dépôt : `scripts/<nom>.sh`. Ils supposent le « Open site shell » de LocalWP (`wp` et `php` dans le PATH).
+Les scripts localisent le WordPress automatiquement (`../app/public`, ou `WP_PATH` dans `.env`). Lance-les toujours depuis la racine du dépôt : `scripts/<nom>.sh`. Ils supposent le « Open site shell » de LocalWP (`wp` et `php` dans le PATH) et redonnent eux-mêmes la priorité au PHP de LocalWP si le `~/.zshrc` en remet un autre devant (Herd, Homebrew). Pour une commande `wp` lancée directement, vérifie d'abord `php -v` : voir « Dépannage » dans le README.
 
 ## Procédures (slash commands)
 

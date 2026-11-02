@@ -3,8 +3,9 @@
  * Compare, pour chaque extension / thème / cœur : version épinglée (lock), version installée,
  * version disponible selon WordPress.org (ou l'updater du fournisseur pour les premium).
  *
- * Usage : wp eval-file scripts/php/check-updates.php <config/plugins.json> <config/stack.json> [--json]
- * Sortie : tableau lisible (défaut) ou JSON (--json). Code de retour 0 toujours ; le JSON contient `updates_available`.
+ * Usage : wp eval-file scripts/php/check-updates.php <config/plugins.json> <config/stack.json> [json]
+ * (`json` sans tirets : `wp eval-file` refuse les options qu'il ne connaît pas.)
+ * Sortie : tableau lisible (défaut) ou JSON (json). Code de retour 0 toujours ; le JSON contient `updates_available`.
  */
 
 if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {
@@ -14,7 +15,7 @@ if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {
 
 $plugins_file = $args[0] ?? '';
 $stack_file   = $args[1] ?? '';
-$as_json      = in_array( '--json', $args, true );
+$as_json      = in_array( 'json', $args, true );
 
 foreach ( array( $plugins_file, $stack_file ) as $f ) {
 	if ( ! is_readable( $f ) ) {
@@ -190,4 +191,12 @@ foreach ( $rows as $r ) {
 }
 WP_CLI\Utils\format_items( 'table', $table, array( 'Type', 'Extension', 'Slug', 'Lock', 'Installée', 'Disponible', 'Source', 'État' ) );
 WP_CLI::log( '' );
-WP_CLI::log( $updates_available ? "{$updates_available} mise(s) à jour disponible(s)." : 'Tout est à jour.' );
+$missing = count( wp_list_filter( $rows, array( 'status' => 'missing' ) ) );
+if ( $updates_available ) {
+	WP_CLI::log( "{$updates_available} mise(s) à jour disponible(s)." );
+} elseif ( ! $missing ) {
+	WP_CLI::log( 'Tout est à jour.' );
+}
+if ( $missing ) {
+	WP_CLI::log( "{$missing} élément(s) manquant(s) : lancer scripts/install.sh." );
+}

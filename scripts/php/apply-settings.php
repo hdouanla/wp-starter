@@ -1,7 +1,8 @@
 <?php
 /**
  * Applique config/settings.json au site courant.
- * Usage : wp eval-file scripts/php/apply-settings.php <chemin/settings.json> [--dry-run]
+ * Usage : wp eval-file scripts/php/apply-settings.php <chemin/settings.json> [dry-run]
+ * (`dry-run` sans tirets : `wp eval-file` refuse les options qu'il ne connaît pas.)
  * Idempotent. S'exécute dans le contexte WordPress chargé par WP-CLI.
  */
 
@@ -11,7 +12,7 @@ if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {
 }
 
 $settings_file = $args[0] ?? '';
-$dry_run       = in_array( '--dry-run', $args, true );
+$dry_run       = in_array( 'dry-run', $args, true );
 
 if ( ! $settings_file || ! is_readable( $settings_file ) ) {
 	WP_CLI::error( "Fichier settings.json introuvable : {$settings_file}" );

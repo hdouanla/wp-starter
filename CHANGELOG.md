@@ -4,6 +4,13 @@ Une section par jour (`## AAAA-MM-JJ`), renommée « version — date » à la c
 
 <!-- nouvelles entrées sous cette ligne (ne pas déplacer : update.sh insère ici) -->
 
+## 2026-11-02
+
+- Scripts : priorité au PHP de LocalWP quand le `~/.zshrc` remet un autre PHP devant (Herd, Homebrew), arrêt si PHP pollue la sortie standard
+- Correctif : `install.sh --dry-run` et `check-updates.sh --json` ne plantent plus sur `wp eval-file`
+- Correctif : `check-updates.sh` n'affiche plus « Tout est à jour » quand des éléments manquent
+- Dépôt déplacé vers `hdouanla/wp-starter`
+
 ## 2026.10 — 2026-10-18
 
 Version initiale du package, alignée sur le site LocalWP `wp-starter` existant.

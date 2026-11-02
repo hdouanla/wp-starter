@@ -13,7 +13,7 @@ JSON=0
 
 if (( JSON )); then
   out="$REPORTS_DIR/check-updates-$(today).json"
-  wpc eval-file "$SCRIPTS_DIR/php/check-updates.php" "$CONFIG_DIR/plugins.json" "$CONFIG_DIR/stack.json" --json | tee "$out"
+  wpc eval-file "$SCRIPTS_DIR/php/check-updates.php" "$CONFIG_DIR/plugins.json" "$CONFIG_DIR/stack.json" json | tee "$out"
   info "Rapport : $out" >&2
 else
   title "wp-starter · vérification des mises à jour ($(today))"

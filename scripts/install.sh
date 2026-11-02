@@ -99,7 +99,7 @@ ok "traductions $LOCALE installées (quand disponibles)"
 # --- 4. Réglages -------------------------------------------------------------
 title "Réglages"
 if (( DRY_RUN )); then
-  wpc eval-file "$SCRIPTS_DIR/php/apply-settings.php" "$CONFIG_DIR/settings.json" --dry-run
+  wpc eval-file "$SCRIPTS_DIR/php/apply-settings.php" "$CONFIG_DIR/settings.json" dry-run
 else
   wpc eval-file "$SCRIPTS_DIR/php/apply-settings.php" "$CONFIG_DIR/settings.json"
 fi

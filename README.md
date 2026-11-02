@@ -50,7 +50,7 @@ Les deux sont des zips à déposer dans `premium/` — voir `premium/README.md` 
    cd ../../starter
    scripts/install.sh
    ```
-   Noter le mot de passe affiché. Avec Claude Code : `claude` puis `/install` fait la même chose avec un dry-run préalable.
+   Si des erreurs PHP s'affichent (Herd, Homebrew), voir « Dépannage ». Noter le mot de passe affiché. Avec Claude Code : `claude` puis `/install` fait la même chose avec un dry-run préalable.
 5. **Dans wp-admin** : activer les licences (Elementor → Licence ; Novamira → réglages). Vérifier Elementor → Réglages → Général.
 6. **Vérifier** : `scripts/verify.sh`.
 7. **Figer** : LocalWP → site `wp-starter` → menu ⋯ → *Save as Blueprint* → nom `wp-starter 2026.10` (voir §4 pour la convention).
@@ -141,6 +141,13 @@ Tous les scripts localisent le WordPress automatiquement : `../app/public` par r
 ## Dépannage
 
 - **« Commande requise introuvable : wp »** → lancer depuis *Open site shell* de LocalWP, pas depuis un Terminal ordinaire.
+- **`Failed loading … opcache.so`, `Xdebug requires Zend Engine API`, `Module "imagick" is already loaded`** → un autre PHP (Herd, Homebrew…) passe devant celui de LocalWP, parce que le `~/.zshrc` modifie le `PATH` à l'ouverture du shell. Les scripts du dépôt redonnent eux-mêmes la priorité au PHP de LocalWP ; pour une commande `wp` lancée à la main, il faut le faire dans le shell :
+  ```bash
+  export PATH="$HOME/Library/Application Support/Local/lightning-services/php-8.2.29+0/bin/darwin-arm64/bin:$PATH"
+  php -v    # doit afficher la version de PHP du site
+  ```
+  Adapter `php-8.2.29+0` à la version du site. Ne pas retirer Herd du `~/.zshrc` si d'autres projets l'utilisent.
+- **« PHP affiche des messages parasites »** → le PHP trouvé n'est pas celui de LocalWP : relancer depuis *Open site shell*.
 - **« WordPress introuvable »** → le dépôt n'est pas dans `~/Local Sites/wp-starter/starter/` : définir `WP_PATH` dans `.env`.
 - **`verify.sh` : HTTP injoignable** → démarrer le site dans LocalWP (bouton *Start site*).
 - **Mise à jour ratée** → `update.sh` a exporté la base dans `reports/db-before-update-*.sql` : `wp db import <fichier>`, puis `scripts/install.sh` réinstalle les versions du lock.

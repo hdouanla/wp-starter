@@ -76,7 +76,29 @@ require_cmd() {
     command -v "$c" >/dev/null 2>&1 || die "Commande requise introuvable : $c (lancer depuis « Open site shell » de LocalWP)."
   done
 }
+
+# « Open site shell » met le PHP de LocalWP dans le PATH, puis lance le shell de
+# l'utilisateur : son ~/.zshrc peut remettre un autre PHP devant (Herd, Homebrew…).
+# On redonne la priorité au PHP de LocalWP s'il est présent dans le PATH.
+prefer_localwp_php() {
+  local dir IFS=:
+  for dir in $PATH; do
+    case "$dir" in
+      */Local/lightning-services/php-*/bin/*) PATH="$dir:$PATH"; export PATH; return 0 ;;
+    esac
+  done
+}
+
+# Tout message PHP écrit sur la sortie standard corromprait les valeurs lues par
+# les scripts (locale, slugs, versions) : on s'arrête avant de toucher au site.
+require_clean_php() {
+  [[ "$(php -r 'echo "ok";' 2>/dev/null)" == "ok" ]] \
+    || die "PHP affiche des messages parasites ($(command -v php)). Lancer depuis « Open site shell » de LocalWP et vérifier : php -v."
+}
+
+prefer_localwp_php
 require_cmd wp php
+require_clean_php
 
 # Wrapper WP-CLI : toujours sur le bon site, sans couleurs ni interactions.
 wpc() { wp --path="$WP_PATH" --no-color "$@"; }
