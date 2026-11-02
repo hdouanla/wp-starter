@@ -6,6 +6,17 @@ Une section par jour (`## AAAA-MM-JJ`), renommée « version — date » à la c
 
 ## 2026-11-02
 
+- Elementor Pro 4.3.2 → 4.3.3
+- Yoast SEO 28.7 → 28.8
+- Polylang 3.8.11 → 3.9.1
+- Disable Comments 2.9.0 → 2.9.1
+- WPvivid Backup Plugin 0.9.136 → 0.9.139
+- Novamira 1.12.9 → 1.12.14
+- WordPress 7.1.3 → 7.1.4
+- Réglage : mises à jour automatiques du cœur coupées sur le starter (`WP_AUTO_UPDATE_CORE`), rétablies par `new-site.sh` sur les sites clients
+- `verify.sh` et `check-updates.sh` signalent l'écart de version du cœur avec le lock
+- Correctif : `verify.sh` ne signale plus à tort `elementor` comme extension hors lock
+- Correctif : `update.sh` n'écrit plus deux sections du même jour dans le CHANGELOG
 - Scripts : priorité au PHP de LocalWP quand le `~/.zshrc` remet un autre PHP devant (Herd, Homebrew), arrêt si PHP pollue la sortie standard
 - Correctif : `install.sh --dry-run` et `check-updates.sh --json` ne plantent plus sur `wp eval-file`
 - Correctif : `check-updates.sh` n'affiche plus « Tout est à jour » quand des éléments manquent

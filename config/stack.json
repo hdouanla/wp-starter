@@ -1,27 +1,27 @@
 {
-  "$comment": "Environnement de référence du site starter dans LocalWP. Mis à jour par scripts/snapshot.sh. Les versions PHP/MySQL/Nginx sont informatives (choisies dans LocalWP, pas par les scripts).",
-  "localwp": {
-    "site_name": "wp-starter",
-    "php": "8.2.29",
-    "mysql": "8.4.0",
-    "web_server": "nginx 1.26.1"
-  },
-  "wordpress": {
-    "version": "7.1.3",
-    "locale": "fr_CA",
-    "table_prefix": "wp_",
-    "debug": false
-  },
-  "theme": {
-    "slug": "hello-elementor",
-    "name": "Hello Elementor",
-    "version": "3.5.1",
-    "source": "wporg",
-    "activate": true
-  },
-  "fallback_theme": {
-    "slug": "twentytwentyfive",
-    "$comment": "Un thème par défaut WordPress est conservé comme filet de sécurité ; les autres thèmes par défaut sont supprimés."
-  },
-  "snapshot_at": "2026-10-18"
+    "$comment": "Environnement de référence du site starter dans LocalWP. Mis à jour par scripts/snapshot.sh. Les versions PHP/MySQL/Nginx sont informatives (choisies dans LocalWP, pas par les scripts).",
+    "localwp": {
+        "site_name": "wp-starter",
+        "php": "8.2.29",
+        "mysql": "8.4.0",
+        "web_server": "nginx 1.26.1"
+    },
+    "wordpress": {
+        "version": "7.1.4",
+        "locale": "fr_CA",
+        "table_prefix": "wp_",
+        "debug": false
+    },
+    "theme": {
+        "slug": "hello-elementor",
+        "name": "Hello Elementor",
+        "version": "3.5.1",
+        "source": "wporg",
+        "activate": true
+    },
+    "fallback_theme": {
+        "slug": "twentytwentyfive",
+        "$comment": "Un thème par défaut WordPress est conservé comme filet de sécurité ; les autres thèmes par défaut sont supprimés."
+    },
+    "snapshot_at": "2026-11-02"
 }

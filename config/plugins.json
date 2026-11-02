@@ -1,96 +1,101 @@
 {
-  "$comment": "Liste des extensions du starter, dans l'ordre d'installation. `version` = version épinglée (lock) installée dans le blueprint courant. `source`: wporg = dépôt WordPress.org (install/update automatiques) ; zip = archive déposée dans premium/ (install depuis le zip, update via le mécanisme de licence du fournisseur ou nouveau zip). `update_check`: wporg | license | manual.",
-  "plugins": [
-    {
-      "slug": "elementor",
-      "name": "Elementor",
-      "version": "4.3.5",
-      "source": "wporg",
-      "update_check": "wporg",
-      "activate": true
-    },
-    {
-      "slug": "elementor-pro",
-      "name": "Elementor Pro",
-      "version": "4.3.2",
-      "source": "zip",
-      "zip_glob": "elementor-pro-*.zip",
-      "update_check": "license",
-      "vendor_url": "https://my.elementor.com/subscriptions/",
-      "activate": true,
-      "requires": ["elementor"]
-    },
-    {
-      "slug": "wordpress-seo",
-      "name": "Yoast SEO",
-      "version": "28.7",
-      "source": "wporg",
-      "update_check": "wporg",
-      "activate": true
-    },
-    {
-      "slug": "header-footer-code-manager",
-      "name": "Header Footer Code Manager",
-      "version": "1.1.46",
-      "source": "wporg",
-      "update_check": "wporg",
-      "activate": true
-    },
-    {
-      "slug": "polylang",
-      "name": "Polylang",
-      "version": "3.8.11",
-      "source": "wporg",
-      "update_check": "wporg",
-      "activate": true
-    },
-    {
-      "slug": "connect-polylang-elementor",
-      "name": "Connect Polylang for Elementor",
-      "version": "2.5.5",
-      "source": "wporg",
-      "update_check": "wporg",
-      "activate": true,
-      "requires": ["polylang", "elementor"]
-    },
-    {
-      "slug": "classic-editor",
-      "name": "Classic Editor",
-      "version": "1.7.0",
-      "source": "wporg",
-      "update_check": "wporg",
-      "activate": true
-    },
-    {
-      "slug": "disable-comments",
-      "name": "Disable Comments",
-      "version": "2.9.0",
-      "source": "wporg",
-      "update_check": "wporg",
-      "activate": true
-    },
-    {
-      "slug": "wpvivid-backuprestore",
-      "name": "WPvivid Backup Plugin",
-      "version": "0.9.136",
-      "source": "wporg",
-      "update_check": "wporg",
-      "activate": true
-    },
-    {
-      "slug": "novamira",
-      "name": "Novamira",
-      "version": "1.12.9",
-      "source": "zip",
-      "zip_glob": "novamira-*.zip",
-      "update_check": "manual",
-      "vendor_url": "https://novamira.ai/",
-      "activate": true
-    }
-  ],
-  "remove_if_present": [
-    "akismet",
-    "hello",
-    "hello-dolly"
-  ]
+    "$comment": "Liste des extensions du starter, dans l'ordre d'installation. `version` = version épinglée (lock) installée dans le blueprint courant. `source`: wporg = dépôt WordPress.org (install/update automatiques) ; zip = archive déposée dans premium/ (install depuis le zip, update via le mécanisme de licence du fournisseur ou nouveau zip). `update_check`: wporg | license | manual.",
+    "plugins": [
+        {
+            "slug": "elementor",
+            "name": "Elementor",
+            "version": "4.3.5",
+            "source": "wporg",
+            "update_check": "wporg",
+            "activate": true
+        },
+        {
+            "slug": "elementor-pro",
+            "name": "Elementor Pro",
+            "version": "4.3.3",
+            "source": "zip",
+            "zip_glob": "elementor-pro-*.zip",
+            "update_check": "license",
+            "vendor_url": "https://my.elementor.com/subscriptions/",
+            "activate": true,
+            "requires": [
+                "elementor"
+            ]
+        },
+        {
+            "slug": "wordpress-seo",
+            "name": "Yoast SEO",
+            "version": "28.8",
+            "source": "wporg",
+            "update_check": "wporg",
+            "activate": true
+        },
+        {
+            "slug": "header-footer-code-manager",
+            "name": "Header Footer Code Manager",
+            "version": "1.1.46",
+            "source": "wporg",
+            "update_check": "wporg",
+            "activate": true
+        },
+        {
+            "slug": "polylang",
+            "name": "Polylang",
+            "version": "3.9.1",
+            "source": "wporg",
+            "update_check": "wporg",
+            "activate": true
+        },
+        {
+            "slug": "connect-polylang-elementor",
+            "name": "Connect Polylang for Elementor",
+            "version": "2.5.5",
+            "source": "wporg",
+            "update_check": "wporg",
+            "activate": true,
+            "requires": [
+                "polylang",
+                "elementor"
+            ]
+        },
+        {
+            "slug": "classic-editor",
+            "name": "Classic Editor",
+            "version": "1.7.0",
+            "source": "wporg",
+            "update_check": "wporg",
+            "activate": true
+        },
+        {
+            "slug": "disable-comments",
+            "name": "Disable Comments",
+            "version": "2.9.1",
+            "source": "wporg",
+            "update_check": "wporg",
+            "activate": true
+        },
+        {
+            "slug": "wpvivid-backuprestore",
+            "name": "WPvivid Backup Plugin",
+            "version": "0.9.139",
+            "source": "wporg",
+            "update_check": "wporg",
+            "activate": true
+        },
+        {
+            "slug": "novamira",
+            "name": "Novamira",
+            "version": "1.12.14",
+            "source": "zip",
+            "zip_glob": "novamira-*.zip",
+            "update_check": "manual",
+            "vendor_url": "https://novamira.ai/",
+            "activate": true
+        }
+    ],
+    "remove_if_present": [
+        "akismet",
+        "hello",
+        "hello-dolly"
+    ]
 }
