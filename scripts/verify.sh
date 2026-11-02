@@ -31,6 +31,20 @@ else
   check_warn "checksums du cœur : écarts détectés (voir : wp core verify-checksums)"
 fi
 
+CORE_LOCK="$(json_get "$CONFIG_DIR/stack.json" '$d["wordpress"]["version"]')"
+CORE_VER="$(wpc core version)"
+if [[ "$CORE_VER" == "$CORE_LOCK" ]]; then
+  check_ok "cœur $CORE_VER conforme au lock"
+else
+  check_warn "cœur : installé $CORE_VER, lock $CORE_LOCK (lancer scripts/snapshot.sh ou update.sh)"
+fi
+# Le starter ne change de version que par update.sh (voir install.sh).
+if [[ "$(wpc config get WP_AUTO_UPDATE_CORE 2>/dev/null || true)" == "" ]] && wpc config has WP_AUTO_UPDATE_CORE 2>/dev/null; then
+  check_ok "mises à jour automatiques du cœur coupées"
+else
+  check_warn "mises à jour automatiques du cœur actives (wp config set WP_AUTO_UPDATE_CORE false --raw)"
+fi
+
 # --- 3. Thème ---------------------------------------------------------------
 THEME_SLUG="$(json_get "$CONFIG_DIR/stack.json" '$d["theme"]["slug"]')"
 ACTIVE_THEME="$(wpc theme list --status=active --field=name)"
@@ -75,7 +89,7 @@ done < <(plugin_slugs)
 # Extensions hors lock
 while IFS= read -r slug; do
   [[ -z "$slug" ]] && continue
-  if ! plugin_slugs | grep -qx "$slug"; then
+  if ! grep -qx "$slug" <<<"$(plugin_slugs)"; then
     check_warn "extension hors lock : $slug (ajouter à config/plugins.json ou supprimer)"
   fi
 done < <(wpc plugin list --field=name)

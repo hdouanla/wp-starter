@@ -67,7 +67,7 @@ $core_row = array(
 	'installed' => $core_installed,
 	'available' => $core_latest ?: $core_installed,
 	'source'    => 'wporg',
-	'status'    => $core_latest && version_compare( $core_latest, $core_installed, '>' ) ? 'update' : 'ok',
+	'status'    => $core_latest && version_compare( $core_latest, $core_installed, '>' ) ? 'update' : ( ( $stack['wordpress']['version'] ?? '' ) !== $core_installed ? 'lock-drift' : 'ok' ),
 );
 if ( 'update' === $core_row['status'] ) {
 	$updates_available++;

@@ -104,6 +104,11 @@ else
   wpc eval-file "$SCRIPTS_DIR/php/apply-settings.php" "$CONFIG_DIR/settings.json"
 fi
 
+# Le starter ne change de version que par update.sh, pour rester aligné sur le lock.
+# new-site.sh retire cette constante : les sites clients gardent leurs mises à jour automatiques.
+(( DRY_RUN )) || wpc config set WP_AUTO_UPDATE_CORE false --raw --type=constant >/dev/null
+ok "Mises à jour automatiques du cœur coupées sur le starter"
+
 # --- 5. Compte administrateur ------------------------------------------------
 if (( SKIP_ADMIN )); then
   info "Compte admin : ignoré (--skip-admin)"

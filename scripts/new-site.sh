@@ -61,6 +61,13 @@ if [[ -n "$LOCALE" ]]; then
   wpc language core install "$LOCALE" --activate >/dev/null 2>&1 && ok "Langue : $LOCALE" || warn "Langue $LOCALE : installation échouée"
 fi
 
+# --- Mises à jour automatiques ----------------------------------------------
+# Coupées sur le starter seulement : un site client doit recevoir ses correctifs de sécurité.
+if wpc config has WP_AUTO_UPDATE_CORE 2>/dev/null; then
+  wpc config delete WP_AUTO_UPDATE_CORE >/dev/null
+fi
+ok "Mises à jour automatiques du cœur : actives"
+
 # --- Caches et transients ---------------------------------------------------
 wpc transient delete --all >/dev/null 2>&1 || true
 wpc cache flush >/dev/null 2>&1 || true

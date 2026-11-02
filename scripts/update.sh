@@ -127,9 +127,13 @@ CHANGES="$(wpc eval-file "$SCRIPTS_DIR/php/snapshot.php" "$CONFIG_DIR/plugins.js
 echo "$CHANGES"
 
 if (( CHANGELOG )) && [[ "$CHANGES" != "Aucun changement de version." ]]; then
-  entry="$(printf '## %s\n\n' "$(today)"; echo "$CHANGES" | sed 's/^/- /'; printf '\n')"
   tmp="$(mktemp)"
-  { head -n 6 "$STARTER_ROOT/CHANGELOG.md"; echo "$entry"; tail -n +7 "$STARTER_ROOT/CHANGELOG.md"; } > "$tmp"
+  if [[ "$(sed -n 7p "$STARTER_ROOT/CHANGELOG.md")" == "## $(today)" ]]; then
+    # Section du jour déjà présente : on y ajoute les lignes (une section par jour).
+    { head -n 8 "$STARTER_ROOT/CHANGELOG.md"; echo "$CHANGES" | sed 's/^/- /'; tail -n +9 "$STARTER_ROOT/CHANGELOG.md"; } > "$tmp"
+  else
+    { head -n 6 "$STARTER_ROOT/CHANGELOG.md"; printf '## %s\n\n' "$(today)"; echo "$CHANGES" | sed 's/^/- /'; echo; tail -n +7 "$STARTER_ROOT/CHANGELOG.md"; } > "$tmp"
+  fi
   mv "$tmp" "$STARTER_ROOT/CHANGELOG.md"
   ok "CHANGELOG.md mis à jour"
 fi

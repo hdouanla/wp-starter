@@ -59,7 +59,7 @@ L'ordre des entrées est l'ordre d'installation (dépendances d'abord). `remove_
 
 ## Réglages figés (`config/settings.json`)
 
-Langue `fr_CA`, fuseau `America/Toronto`, permaliens `/%postname%/`, commentaires et pingbacks fermés, `blog_public = 0` (le starter n'est jamais indexé — à passer à 1 sur un site client à la mise en ligne), contenu d'exemple supprimé, thèmes par défaut supprimés sauf `twentytwentyfive` (filet de sécurité), Elementor sans couleurs/polices par défaut, upload SVG autorisé. Modifier ces réglages = modifier `settings.json` **puis** `wp eval-file scripts/php/apply-settings.php config/settings.json`, puis une ligne dans le CHANGELOG.
+Langue `fr_CA`, fuseau `America/Toronto`, permaliens `/%postname%/`, commentaires et pingbacks fermés, `blog_public = 0` (le starter n'est jamais indexé — à passer à 1 sur un site client à la mise en ligne), contenu d'exemple supprimé, thèmes par défaut supprimés sauf `twentytwentyfive` (filet de sécurité), Elementor sans couleurs/polices par défaut, upload SVG autorisé. Hors de `settings.json` : `WP_AUTO_UPDATE_CORE = false` dans le `wp-config.php` du starter (posé par `install.sh`, retiré par `new-site.sh` : un site client doit garder ses mises à jour automatiques). Modifier ces réglages = modifier `settings.json` **puis** `wp eval-file scripts/php/apply-settings.php config/settings.json`, puis une ligne dans le CHANGELOG.
 
 ## Contexte métier
 

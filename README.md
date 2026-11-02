@@ -20,7 +20,7 @@ Site LocalWP vierge ───────────────▶ site wp-sta
 | WordPress | version épinglée dans `config/stack.json`, langue `fr_CA`, fuseau `America/Toronto` |
 | Thème | Hello Elementor (+ Twenty Twenty-Five conservé comme filet de sécurité) |
 | Extensions | Elementor, Elementor Pro*, Yoast SEO, Header Footer Code Manager, Polylang, Connect Polylang for Elementor, Classic Editor, Disable Comments, WPvivid Backup, Novamira** — versions dans `config/plugins.json` |
-| Réglages | permaliens `/%postname%/`, commentaires fermés, non indexé (`blog_public = 0`), contenu d'exemple supprimé, Elementor sans couleurs/polices par défaut, upload SVG — détail dans `config/settings.json` |
+| Réglages | permaliens `/%postname%/`, commentaires fermés, non indexé (`blog_public = 0`), contenu d'exemple supprimé, Elementor sans couleurs/polices par défaut, upload SVG — détail dans `config/settings.json`. Mises à jour automatiques du cœur coupées sur le starter seulement (§3) |
 | Compte | `repotzadmin`, mot de passe généré et affiché une seule fois |
 | Contenu | aucun (pages, menus et langues Polylang se font par site) |
 
@@ -53,7 +53,8 @@ Les deux sont des zips à déposer dans `premium/` — voir `premium/README.md` 
    Si des erreurs PHP s'affichent (Herd, Homebrew), voir « Dépannage ». Noter le mot de passe affiché. Avec Claude Code : `claude` puis `/install` fait la même chose avec un dry-run préalable.
 5. **Dans wp-admin** : activer les licences (Elementor → Licence ; Novamira → réglages). Vérifier Elementor → Réglages → Général.
 6. **Vérifier** : `scripts/verify.sh`.
-7. **Figer** : LocalWP → site `wp-starter` → menu ⋯ → *Save as Blueprint* → nom `wp-starter 2026.10` (voir §4 pour la convention).
+7. **Mettre à jour** : wp-admin peut déjà annoncer des mises à jour, car l'installation pose les versions du lock et d'autres sont sorties depuis. C'est normal : suivre le §3, pas le bouton de wp-admin.
+8. **Figer** : LocalWP → site `wp-starter` → menu ⋯ → *Save as Blueprint* → nom `wp-starter 2026.10` (voir §4 pour la convention).
 
 ## 2. Créer un site client
 
@@ -62,10 +63,16 @@ Les deux sont des zips à déposer dans `premium/` — voir `premium/README.md` 
    ```bash
    bash ~/Local\ Sites/wp-starter/starter/scripts/new-site.sh --name "Nom du client" --email contact@client.com
    ```
-   Nouveau mot de passe admin, nom du site, courriel, caches purgés, sessions héritées invalidées. Le script refuse de s'exécuter sur le starter lui-même.
+   Nouveau mot de passe admin, nom du site, courriel, caches purgés, sessions héritées invalidées, mises à jour automatiques du cœur rétablies. Le script refuse de s'exécuter sur le starter lui-même.
 3. Suite habituelle : langues Polylang, JSON-LD (`config/snippets/hfcm-jsonld-organisation.html` complété puis collé dans HFCM), intégration des maquettes via Novamira. `blog_public` reste à 0 jusqu'à la mise en ligne.
 
 ## 3. Maintenance (mensuelle ou avant un nouveau projet)
+
+Cette section s'adresse à la personne qui maintient le starter (droit d'écriture sur le dépôt). Pour simplement créer un site client, le §2 suffit.
+
+**Toujours mettre à jour par `scripts/update.sh` ou `/update`, jamais par le bouton de wp-admin.** Le script sauvegarde la base, vérifie le site et écrit les nouvelles versions dans le lock, ce qui permet au dépôt, au blueprint et au site de rester alignés. Si une mise à jour a été faite dans wp-admin : `scripts/snapshot.sh`, ligne dans `CHANGELOG.md`, commit.
+
+Sur le starter, les mises à jour automatiques du cœur sont coupées (`WP_AUTO_UPDATE_CORE` dans `wp-config.php`) pour que sa version ne change pas sans passer par le lock. Il faut donc faire ce cycle régulièrement. `new-site.sh` retire cette constante : les sites clients gardent leurs mises à jour automatiques.
 
 Avec Claude Code, depuis `starter/` (via *Open site shell* du site `wp-starter`, puis `cd ../../starter && claude`) :
 
@@ -83,7 +90,9 @@ scripts/update.sh                 # ou --plugin elementor, --core, --theme
 git add -A && git commit -m "chore(update): …" && git push
 ```
 
-Puis, dans LocalWP : *Save as Blueprint* sur `wp-starter`, et suppression de l'ancien blueprint (menu principal → *Blueprints*).
+Puis, dans LocalWP : *Save as Blueprint* sur `wp-starter`, et suppression de l'ancien blueprint (menu principal → *Blueprints*). Les sites déjà créés ne changent pas : le blueprint ne sert qu'aux prochains.
+
+Sur un autre poste ou une autre copie du dépôt : `git pull` pour récupérer le lock à jour.
 
 ### Extensions hors WordPress.org (Elementor Pro, Novamira)
 
@@ -130,7 +139,7 @@ scripts/setup-skills.sh     # remplace .claude/skills/ par la version trunk de W
 | `scripts/install.sh [--dry-run] [--skip-admin]` | Installation complète et idempotente sur un site vierge. |
 | `scripts/check-updates.sh [--json]` | Interroge WordPress.org et les updaters tiers ; compare au lock. Ne modifie rien. |
 | `scripts/update.sh [--plugin s] [--core] [--theme]` | Sauvegarde SQL → mises à jour → `verify.sh` → lock → CHANGELOG. |
-| `scripts/verify.sh [--quick]` | Contrôles : extensions, thème, réglages, checksums du cœur, HTTP 200 sans erreur fatale. Code 1 si erreur. |
+| `scripts/verify.sh [--quick]` | Contrôles : extensions, thème, réglages, checksums du cœur, écart du cœur avec le lock, mises à jour automatiques coupées, HTTP 200 sans erreur fatale. Code 1 si erreur. |
 | `scripts/snapshot.sh` | Réaligne le lock sur ce qui est installé (après une action manuelle dans wp-admin). |
 | `scripts/new-site.sh --name … [--email] [--locale] [--path]` | Personnalise un site créé depuis le blueprint. |
 | `scripts/setup-skills.sh [--ref trunk]` | Met à niveau `.claude/skills/`. |
@@ -150,6 +159,7 @@ Tous les scripts localisent le WordPress automatiquement : `../app/public` par r
 - **« PHP affiche des messages parasites »** → le PHP trouvé n'est pas celui de LocalWP : relancer depuis *Open site shell*.
 - **« WordPress introuvable »** → le dépôt n'est pas dans `~/Local Sites/wp-starter/starter/` : définir `WP_PATH` dans `.env`.
 - **`verify.sh` : HTTP injoignable** → démarrer le site dans LocalWP (bouton *Start site*).
+- **Avertissement « mises à jour automatiques du cœur actives »** → `wp config set WP_AUTO_UPDATE_CORE false --raw` sur le starter. Ne pas le faire sur un site client.
 - **Mise à jour ratée** → `update.sh` a exporté la base dans `reports/db-before-update-*.sql` : `wp db import <fichier>`, puis `scripts/install.sh` réinstalle les versions du lock.
 - **Elementor Pro « vérifier chez le fournisseur »** dans `check-updates.sh` → licence non activée sur le starter : l'activer dans wp-admin (Elementor → Licence), ou gérer par zip.
 - **Novamira « vérifier chez le fournisseur »** → normal : l'extension n'est pas sur WordPress.org. Télécharger la nouvelle version sur novamira.ai et passer par `premium/` (§3).
