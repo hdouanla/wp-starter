@@ -6,6 +6,7 @@ Une section par jour (`## AAAA-MM-JJ`), renommée « version — date » à la c
 
 ## 2026-11-02
 
+- Skills : agent-skills 55cd0f7 → eff3785 (aucune instruction modifiée, seul le marqueur de version change)
 - Elementor 4.3.5 → 4.3.6
 - Environnement LocalWP : PHP 8.2.29 → 8.2.35
 - Documentation : maintenance déplacée du `README.md` vers `MAINTENANCE.md`, marche à suivre pour proposer une PR
