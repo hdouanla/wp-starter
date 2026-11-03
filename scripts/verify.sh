@@ -105,6 +105,11 @@ expect_option permalink_structure "$(json_get "$CONFIG_DIR/settings.json" '$d["o
 expect_option timezone_string "$(json_get "$CONFIG_DIR/settings.json" '$d["options"]["timezone_string"]')"
 expect_option blog_public "$(json_get "$CONFIG_DIR/settings.json" '$d["options"]["blog_public"]')"
 expect_option default_comment_status "$(json_get "$CONFIG_DIR/settings.json" '$d["options"]["default_comment_status"]')"
+if [[ "$(wpc option pluck disable_comments_options remove_everywhere 2>/dev/null || true)" == "1" ]]; then
+  check_ok "Disable Comments activé partout"
+else
+  check_fail "Disable Comments n'est pas activé partout (wp eval-file scripts/php/apply-settings.php config/settings.json)"
+fi
 LOCALE_WANT="$(json_get "$CONFIG_DIR/settings.json" '$d["language"]["locale"]')"
 LOCALE_GOT="$(wpc language core list --status=active --field=language)"
 [[ "$LOCALE_GOT" == "$LOCALE_WANT" ]] && check_ok "langue $LOCALE_GOT" || check_fail "langue $LOCALE_GOT (attendu $LOCALE_WANT)"

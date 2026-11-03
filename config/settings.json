@@ -1,5 +1,5 @@
 {
-  "$comment": "Réglages appliqués par scripts/php/apply-settings.php (via `wp eval-file`). Idempotent : peut être relancé sans effet de bord. `options` = wp_options brutes (clé → valeur). Les valeurs tableau/objet sont enregistrées telles quelles (sérialisées par WordPress).",
+  "$comment": "Réglages appliqués par scripts/php/apply-settings.php (via `wp eval-file`). Idempotent : peut être relancé sans effet de bord. `options` = wp_options brutes (clé → valeur). Pour une valeur objet, seules les clés listées sont imposées : les autres clés de l'option sont conservées.",
 
   "language": {
     "locale": "fr_CA",
@@ -26,6 +26,7 @@
     "comment_registration": 1,
     "comments_notify": 0,
     "moderation_notify": 0,
+    "disable_comments_options": { "remove_everywhere": true, "settings_saved": true },
 
     "uploads_use_yearmonth_folders": 1,
     "thumbnail_size_w": 300,

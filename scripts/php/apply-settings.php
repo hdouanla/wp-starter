@@ -29,14 +29,24 @@ $same    = 0;
 // --- 1. Options brutes ------------------------------------------------------
 foreach ( $settings['options'] ?? array() as $key => $value ) {
 	$current = get_option( $key, '__absent__' );
-	// Comparaison souple : WP stocke souvent les entiers en chaînes.
-	$equal = ( $current !== '__absent__' ) && ( (string) $current === (string) $value || $current === $value );
+	if ( is_array( $value ) ) {
+		// Tableau : seules les clés listées sont imposées, les autres sont conservées
+		// (ex. db_version d'une extension, dont la perte relancerait ses migrations).
+		$value = is_array( $current ) ? array_replace( $current, $value ) : $value;
+		$equal = is_array( $current ) && $current == $value;
+	} else {
+		// Comparaison souple : WP stocke souvent les entiers en chaînes.
+		$equal = ! is_array( $current ) && ( $current !== '__absent__' ) && ( (string) $current === (string) $value || $current === $value );
+	}
 	if ( $equal ) {
 		$same++;
 		continue;
 	}
 	$changed++;
-	WP_CLI::log( sprintf( '  %-42s %s → %s', $key, var_export( $current === '__absent__' ? null : $current, true ), var_export( $value, true ) ) );
+	$show = static function ( $v ) {
+		return is_array( $v ) ? wp_json_encode( $v ) : var_export( $v, true );
+	};
+	WP_CLI::log( sprintf( '  %-42s %s → %s', $key, $show( $current === '__absent__' ? null : $current ), $show( $value ) ) );
 	if ( ! $dry_run ) {
 		update_option( $key, $value );
 	}
