@@ -47,7 +47,18 @@ resolve_wp_path() {
 }
 
 WP_PATH="$(resolve_wp_path)" || {
-  echo "✗ WordPress introuvable. Définir WP_PATH dans .env (ex. WP_PATH=../app/public)." >&2
+  STARTER_PARENT="$(dirname "$STARTER_ROOT")"
+  if [[ "$(basename "$STARTER_PARENT")" == "app" && -f "$STARTER_PARENT/public/wp-load.php" ]]; then
+    {
+      echo "✗ WordPress introuvable : le dépôt est dans app/, il doit être à côté. Pour le déplacer :"
+      printf '  cd %q && mv app/%q starter && cd starter\n' "$(dirname "$STARTER_PARENT")" "$(basename "$STARTER_ROOT")"
+    } >&2
+  else
+    {
+      echo "✗ WordPress introuvable dans $STARTER_PARENT/app/public."
+      echo "  Cloner le dépôt à côté de app/, ou définir WP_PATH dans .env (chemin absolu, ou relatif à la racine du dépôt)."
+    } >&2
+  fi
   exit 1
 }
 export WP_PATH
