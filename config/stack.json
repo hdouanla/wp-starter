@@ -2,7 +2,7 @@
     "$comment": "Environnement de référence du site starter dans LocalWP. Mis à jour par scripts/snapshot.sh. Les versions PHP/MySQL/Nginx sont informatives (choisies dans LocalWP, pas par les scripts).",
     "localwp": {
         "site_name": "wp-starter",
-        "php": "8.2.29",
+        "php": "8.2.35",
         "mysql": "8.4.0",
         "web_server": "nginx 1.26.1"
     },
@@ -23,5 +23,5 @@
         "slug": "twentytwentyfive",
         "$comment": "Un thème par défaut WordPress est conservé comme filet de sécurité ; les autres thèmes par défaut sont supprimés."
     },
-    "snapshot_at": "2026-11-02"
+    "snapshot_at": "2026-11-03"
 }

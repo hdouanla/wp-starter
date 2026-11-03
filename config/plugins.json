@@ -4,7 +4,7 @@
         {
             "slug": "elementor",
             "name": "Elementor",
-            "version": "4.3.5",
+            "version": "4.3.6",
             "source": "wporg",
             "update_check": "wporg",
             "activate": true
