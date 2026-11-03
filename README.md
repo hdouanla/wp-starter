@@ -37,7 +37,7 @@ Les deux sont des zips à déposer dans `premium/` — voir `premium/README.md` 
 ## 1. Installation initiale (une seule fois)
 
 1. **Créer le site dans LocalWP** : *Create a new site* → *Custom* → nom `wp-starter`, environnement **Custom** : PHP 8.2.x, nginx, MySQL 8. Identifiants WordPress temporaires (ils seront remplacés). Ne pas cocher « Advanced → multisite ».
-2. **Cloner ce dépôt à côté de `app/`** :
+2. **Cloner ce dépôt à côté de `app/`, pas dedans** (`wp-starter/starter`, et non `wp-starter/app/starter`) :
    ```bash
    cd ~/Local\ Sites/wp-starter
    git clone https://github.com/hdouanla/wp-starter.git starter
@@ -47,7 +47,7 @@ Les deux sont des zips à déposer dans `premium/` — voir `premium/README.md` 
 3. **Déposer les zips premium** dans `starter/premium/` tels que téléchargés : pas besoin de les renommer, les scripts lisent l'extension et sa version dans le zip. Ils sont ignorés par Git : garder une copie ailleurs, car supprimer `starter/` ou le site les efface. Sans zip, l'installation continue sans l'extension ; relancer `scripts/install.sh` après le dépôt.
 4. **Ouvrir le shell du site** : dans LocalWP, site `wp-starter` → *Open site shell* (le Terminal s'ouvre dans `app/public` avec `wp` et `php` disponibles), puis :
    ```bash
-   cd ../../starter
+   cd ~/Local\ Sites/wp-starter/starter
    scripts/install.sh
    ```
    Si des erreurs PHP s'affichent (Herd, Homebrew), voir « Dépannage ». Noter le mot de passe affiché. Avec Claude Code : `claude` puis `/install` fait la même chose avec un dry-run préalable.
@@ -74,7 +74,7 @@ Cette section s'adresse à la personne qui maintient le starter (droit d'écritu
 
 Sur le starter, les mises à jour automatiques du cœur sont coupées (`WP_AUTO_UPDATE_CORE` dans `wp-config.php`) pour que sa version ne change pas sans passer par le lock. Il faut donc faire ce cycle régulièrement. `new-site.sh` retire cette constante : les sites clients gardent leurs mises à jour automatiques.
 
-Avec Claude Code, depuis `starter/` (via *Open site shell* du site `wp-starter`, puis `cd ../../starter && claude`) :
+Avec Claude Code, depuis `starter/` (via *Open site shell* du site `wp-starter`, puis `cd ~/Local\ Sites/wp-starter/starter && claude`) :
 
 ```
 /status     → ce qui est disponible sur WordPress.org, sans rien toucher
@@ -157,7 +157,7 @@ Tous les scripts localisent le WordPress automatiquement : `../app/public` par r
   ```
   Adapter `php-8.2.29+0` à la version du site. Ne pas retirer Herd du `~/.zshrc` si d'autres projets l'utilisent.
 - **« PHP affiche des messages parasites »** → le PHP trouvé n'est pas celui de LocalWP : relancer depuis *Open site shell*.
-- **« WordPress introuvable »** → le dépôt n'est pas dans `~/Local Sites/wp-starter/starter/` : définir `WP_PATH` dans `.env`.
+- **« WordPress introuvable »** → le dépôt n'est pas dans `~/Local Sites/wp-starter/starter/`. S'il a été cloné dans `app/` : `cd ~/Local\ Sites/wp-starter && mv app/starter starter && cd starter`. Pour un autre emplacement voulu, définir `WP_PATH` dans `.env`.
 - **`verify.sh` : HTTP injoignable** → démarrer le site dans LocalWP (bouton *Start site*).
 - **Avertissement « mises à jour automatiques du cœur actives »** → `wp config set WP_AUTO_UPDATE_CORE false --raw` sur le starter. Ne pas le faire sur un site client.
 - **Mise à jour ratée** → `update.sh` a exporté la base dans `reports/db-before-update-*.sql` : `wp db import <fichier>`, puis `scripts/install.sh` réinstalle les versions du lock.
