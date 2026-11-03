@@ -11,6 +11,8 @@ Langue de travail : français (registre québécois), termes techniques en angla
 ├── app/public/        ← le WordPress starter (géré par LocalWP ; jamais commité ici)
 └── starter/           ← CE DÉPÔT (git clone https://github.com/hdouanla/wp-starter.git)
     ├── CLAUDE.md
+    ├── README.md      installation et création de sites (public)
+    ├── MAINTENANCE.md mises à jour, versions, blueprint, proposer une PR
     ├── config/        plugins.json (lock des extensions) · stack.json (cœur, thème, env) · settings.json (réglages) · snippets/
     ├── scripts/       install.sh · check-updates.sh · update.sh · verify.sh · snapshot.sh · new-site.sh · setup-skills.sh · php/
     ├── premium/       zips Elementor Pro, Novamira (ignorés par Git)
@@ -32,6 +34,8 @@ Les scripts localisent le WordPress automatiquement (`../app/public`, ou `WP_PAT
 | `/add-plugin` | Ajouter (ou retirer) une extension du starter.                 |
 | `/release`    | Figer une version : tag Git + checklist blueprint.             |
 | `/new-site`   | Personnaliser un site client créé depuis le blueprint.         |
+
+`/update`, `/add-plugin` et `/release` relèvent de la maintenance (`MAINTENANCE.md`) : l'éditeur et son équipe les appliquent ; toute autre personne passe par une PR, et `/release` reste à l'équipe.
 
 Hors de ces procédures, préfère les scripts aux commandes WP-CLI à la main : ils tiennent le lock et le CHANGELOG à jour.
 

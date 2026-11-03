@@ -8,6 +8,7 @@ Une section par jour (`## AAAA-MM-JJ`), renommée « version — date » à la c
 
 - Elementor 4.3.5 → 4.3.6
 - Environnement LocalWP : PHP 8.2.29 → 8.2.35
+- Documentation : maintenance déplacée du `README.md` vers `MAINTENANCE.md`, marche à suivre pour proposer une PR
 - Zips premium : plus besoin de les renommer, l'extension et sa version sont lues dans le zip (`zip_glob` retiré du lock)
 - Réglage : barre d'outils masquée sur le site pour les comptes existants (`install.sh`, `new-site.sh`, contrôle dans `verify.sh`)
 - Réglage : Disable Comments activé partout par défaut (`settings.json`, contrôle dans `verify.sh`)
