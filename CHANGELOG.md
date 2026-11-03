@@ -4,6 +4,10 @@ Une section par jour (`## AAAA-MM-JJ`), renommée « version — date » à la c
 
 <!-- nouvelles entrées sous cette ligne (ne pas déplacer : update.sh insère ici) -->
 
+## 2026-11-03
+
+- `new-site.sh` copie les skills dans `<site>/.claude/skills/` et crée `<site>/CLAUDE.md` (gabarit `config/client/CLAUDE.md`), hors du dossier public
+
 ## 2026.11.2 — 2026-11-02
 
 - Skills : agent-skills 55cd0f7 → eff3785 (aucune instruction modifiée, seul le marqueur de version change)

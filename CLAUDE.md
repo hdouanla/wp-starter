@@ -13,7 +13,7 @@ Langue de travail : français (registre québécois), termes techniques en angla
     ├── CLAUDE.md
     ├── README.md      installation et création de sites (public)
     ├── MAINTENANCE.md mises à jour, versions, blueprint, proposer une PR
-    ├── config/        plugins.json (lock des extensions) · stack.json (cœur, thème, env) · settings.json (réglages) · snippets/
+    ├── config/        plugins.json (lock des extensions) · stack.json (cœur, thème, env) · settings.json (réglages) · snippets/ · client/ (CLAUDE.md posé à la racine des sites clients)
     ├── scripts/       install.sh · check-updates.sh · update.sh · verify.sh · snapshot.sh · new-site.sh · setup-skills.sh · php/
     ├── premium/       zips Elementor Pro, Novamira (ignorés par Git)
     ├── reports/       sauvegardes SQL et rapports (ignorés par Git)

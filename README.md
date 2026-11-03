@@ -60,7 +60,7 @@ Les deux sont des zips à déposer dans `premium/`.
    ```bash
    bash ~/Local\ Sites/wp-starter/starter/scripts/new-site.sh --name "Nom du client" --email contact@client.com
    ```
-   Nouveau mot de passe admin, nom du site, courriel, caches purgés, sessions héritées invalidées, mises à jour automatiques du cœur rétablies, `.env` et `.git` retirés de la copie `starter/` du site (skills et scripts conservés). Le script refuse de s'exécuter sur le starter lui-même.
+   Nouveau mot de passe admin, nom du site, courriel, caches purgés, sessions héritées invalidées, mises à jour automatiques du cœur rétablies, `.env` et `.git` retirés de la copie `starter/` du site (skills et scripts conservés). Le script copie aussi les skills dans `<site>/.claude/skills/` et crée `<site>/CLAUDE.md` s'il n'existe pas : Claude Code, lancé depuis `app/public`, les charge sans qu'ils soient dans le dossier public. Le script refuse de s'exécuter sur le starter lui-même.
 3. Suite habituelle : langues Polylang, JSON-LD (`config/snippets/hfcm-jsonld-organisation.html` complété puis collé dans HFCM), intégration des maquettes via Novamira. `blog_public` reste à 0 jusqu'à la mise en ligne.
 
 ## Mises à jour

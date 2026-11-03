@@ -87,11 +87,38 @@ if [[ -d "$SITE_STARTER" && ! -L "$SITE_STARTER" && "$(basename "$SITE_DIR")" !=
   [[ -f "$SITE_STARTER/.env" ]] && rm -f "$SITE_STARTER/.env" && ok "starter/.env hérité du blueprint retiré"
   if [[ -d "$SITE_STARTER/.git" ]]; then
     if grep -q 'wp-starter' "$SITE_STARTER/.git/config" 2>/dev/null; then
-      rm -rf "$SITE_STARTER/.git"
-      ok "starter/.git hérité du blueprint retiré"
+      if rm -rf "$SITE_STARTER/.git"; then
+        ok "starter/.git hérité du blueprint retiré"
+      else
+        warn "starter/.git : suppression échouée"
+      fi
     else
       warn "starter/.git conservé : ce n'est pas une copie du dépôt wp-starter"
     fi
+  fi
+fi
+
+# --- Outils Claude Code du site -----------------------------------------------
+# À la racine du site, hors de app/public : Claude Code les trouve depuis app/public et ils ne
+# partent pas en ligne. Un échec n'arrête pas le script : le mot de passe reste à afficher.
+if [[ "$WP_PATH" == */app/public && "$(basename "$SITE_DIR")" != "wp-starter" ]]; then
+  if ! compgen -G "$STARTER_ROOT/.claude/skills/*/SKILL.md" >/dev/null; then
+    warn "Skills absents de $STARTER_ROOT/.claude/skills : rien à copier"
+  elif mkdir -p "$SITE_DIR/.claude/skills" && cp -R "$STARTER_ROOT/.claude/skills/." "$SITE_DIR/.claude/skills/"; then
+    find "$SITE_DIR/.claude/skills" -name .DS_Store -delete 2>/dev/null || true
+    ok "Skills Claude Code copiés dans .claude/skills (agent-skills@$(cat "$SITE_DIR/.claude/skills/.agent-skills-commit" 2>/dev/null || echo '?'))"
+  else
+    warn "Skills Claude Code : copie échouée vers $SITE_DIR/.claude/skills"
+  fi
+
+  if [[ -e "$SITE_DIR/CLAUDE.md" ]]; then
+    info "CLAUDE.md du site déjà présent : conservé"
+  elif [[ ! -f "$CONFIG_DIR/client/CLAUDE.md" ]]; then
+    warn "Gabarit $CONFIG_DIR/client/CLAUDE.md absent : CLAUDE.md du site non créé"
+  elif { printf '# %s\n\n' "$NAME"; cat "$CONFIG_DIR/client/CLAUDE.md"; } > "$SITE_DIR/CLAUDE.md"; then
+    ok "CLAUDE.md créé à la racine du site"
+  else
+    warn "CLAUDE.md du site : écriture échouée"
   fi
 fi
 
