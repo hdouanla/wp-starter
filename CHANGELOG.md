@@ -4,7 +4,7 @@ Une section par jour (`## AAAA-MM-JJ`), renommée « version — date » à la c
 
 <!-- nouvelles entrées sous cette ligne (ne pas déplacer : update.sh insère ici) -->
 
-## 2026-11-02
+## 2026.11.2 — 2026-11-02
 
 - Skills : agent-skills 55cd0f7 → eff3785 (aucune instruction modifiée, seul le marqueur de version change)
 - Elementor 4.3.5 → 4.3.6
