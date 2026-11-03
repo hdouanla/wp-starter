@@ -9,6 +9,7 @@ Une section par jour (`## AAAA-MM-JJ`), renommée « version — date » à la c
 - Zips premium : plus besoin de les renommer, l'extension et sa version sont lues dans le zip (`zip_glob` retiré du lock)
 - Réglage : barre d'outils masquée sur le site pour les comptes existants (`install.sh`, `new-site.sh`, contrôle dans `verify.sh`)
 - Réglage : Disable Comments activé partout par défaut (`settings.json`, contrôle dans `verify.sh`)
+- Skills : version signalée par `check-updates.sh`, mise à niveau relue à `/release`, présence contrôlée par `verify.sh`
 
 ## 2026.11 — 2026-11-02
 

@@ -126,6 +126,8 @@ Cycle manuel type pour Novamira : `/status` l'affiche « vérifier chez le fourn
 scripts/setup-skills.sh     # remplace .claude/skills/ par la version trunk de WordPress/agent-skills
 ```
 
+Les skills sont versionnés dans ce dépôt, donc inclus dans le blueprint sans téléchargement à l'installation. `check-updates.sh` signale quand `trunk` a avancé ; la mise à niveau se fait à `/release`, après relecture du diff.
+
 ## 4. Versions et blueprints
 
 - Tag Git `vAAAA.MM` (ex. `v2026.11`), `.2`, `.3` si plusieurs versions dans le mois. Créé par `/release`.

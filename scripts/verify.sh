@@ -142,6 +142,13 @@ if command -v curl >/dev/null 2>&1; then
   done
 fi
 
+# --- 7. Skills Claude Code --------------------------------------------------
+if compgen -G "$STARTER_ROOT/.claude/skills/*/SKILL.md" >/dev/null; then
+  check_ok "skills Claude Code présents (agent-skills@$(cat "$STARTER_ROOT/.claude/skills/.agent-skills-commit" 2>/dev/null || echo '?'))"
+else
+  check_warn "skills Claude Code absents de .claude/skills/ (git checkout -- .claude/skills, ou scripts/setup-skills.sh)"
+fi
+
 # --- Bilan ------------------------------------------------------------------
 echo
 if (( ERRORS )); then
