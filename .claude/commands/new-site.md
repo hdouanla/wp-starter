@@ -10,4 +10,6 @@ Personnalisation d'un nouveau site créé dans LocalWP à partir du blueprint wp
 3. Le mot de passe admin est affiché une seule fois : rappelle de le conserver ; ne l'écris nulle part.
 4. Rappelle les suites typiques : configurer les langues Polylang (FR/EN) si le site est bilingue ; coller le JSON-LD de `config/snippets/hfcm-jsonld-organisation.html` dans HFCM après l'avoir complété ; `blog_public` à passer à 1 seulement à la mise en ligne.
 
+Le script retire aussi le `.env` et le `.git` de la copie `starter/` du nouveau site (les skills et les scripts restent). Le vrai dépôt n'est jamais touché.
+
 Ne modifie rien dans ce dépôt : ce qui concerne le site client vit dans le site client.

@@ -10,6 +10,7 @@ Une section par jour (`## AAAA-MM-JJ`), renommée « version — date » à la c
 - Réglage : barre d'outils masquée sur le site pour les comptes existants (`install.sh`, `new-site.sh`, contrôle dans `verify.sh`)
 - Réglage : Disable Comments activé partout par défaut (`settings.json`, contrôle dans `verify.sh`)
 - Skills : version signalée par `check-updates.sh`, mise à niveau relue à `/release`, présence contrôlée par `verify.sh`
+- `new-site.sh` retire le `.env` et le `.git` de la copie `starter/` héritée du blueprint
 
 ## 2026.11 — 2026-11-02
 

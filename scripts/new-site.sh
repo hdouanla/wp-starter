@@ -76,6 +76,25 @@ wpc elementor flush-css >/dev/null 2>&1 && ok "CSS Elementor régénéré" || tr
 wpc rewrite flush >/dev/null 2>&1 || true
 ok "Transients et caches purgés"
 
+# --- Copie du dépôt starter héritée du blueprint ------------------------------
+# Le blueprint embarque starter/ : on garde les skills et les scripts, mais pas le .env
+# (licences, WP_PATH du starter) ni le .git (un push partirait vers le dépôt du starter).
+# Jamais sur le vrai dépôt : ni le dépôt qui exécute ce script, ni le site wp-starter, ni un lien.
+SITE_DIR="$(dirname "$(dirname "$WP_PATH")")"
+SITE_STARTER="$SITE_DIR/starter"
+if [[ -d "$SITE_STARTER" && ! -L "$SITE_STARTER" && "$(basename "$SITE_DIR")" != "wp-starter" \
+      && "$(cd "$SITE_STARTER" && pwd -P)" != "$(cd "$STARTER_ROOT" && pwd -P)" ]]; then
+  [[ -f "$SITE_STARTER/.env" ]] && rm -f "$SITE_STARTER/.env" && ok "starter/.env hérité du blueprint retiré"
+  if [[ -d "$SITE_STARTER/.git" ]]; then
+    if grep -q 'wp-starter' "$SITE_STARTER/.git/config" 2>/dev/null; then
+      rm -rf "$SITE_STARTER/.git"
+      ok "starter/.git hérité du blueprint retiré"
+    else
+      warn "starter/.git conservé : ce n'est pas une copie du dépôt wp-starter"
+    fi
+  fi
+fi
+
 # --- Rappel : indexation ----------------------------------------------------
 warn "blog_public = $(wpc option get blog_public) — laisser à 0 en développement ; passer à 1 à la mise en ligne."
 
