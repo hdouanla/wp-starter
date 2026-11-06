@@ -51,7 +51,7 @@ Les deux sont des zips à déposer dans `premium/`.
    Si des erreurs PHP s'affichent (Herd, Homebrew), voir « Dépannage ». Noter le mot de passe affiché. Avec Claude Code : `claude` puis `/install` fait la même chose avec un dry-run préalable.
 5. **Dans wp-admin** : activer la licence Elementor Pro (Elementor → Licence). Novamira n'a pas de licence à activer en version gratuite. Vérifier Elementor → Réglages → Général.
 6. **Vérifier** : `scripts/verify.sh`, toujours depuis le shell du site et la racine du dépôt. Résultat attendu : `Aucune erreur`. Un avertissement « installé X, lock Y » signale seulement une version différente de celle du lock, souvent parce qu'un zip ou WordPress est plus récent. Il ne bloque rien : voir « Mises à jour » avant de lancer les commandes qu'il suggère.
-7. **Figer** : LocalWP → site `wp-starter` → menu ⋯ → *Save as Blueprint* → nom `wp-starter 2026.11.2`, soit la dernière version du `CHANGELOG.md`. Un seul blueprint à conserver à la fois.
+7. **Figer** : LocalWP → site `wp-starter` → menu ⋯ → *Save as Blueprint* → nom `wp-starter 2026.11.3`, soit la dernière version du `CHANGELOG.md`. Un seul blueprint à conserver à la fois.
 
 ## 2. Créer un site client
 
