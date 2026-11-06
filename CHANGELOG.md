@@ -4,14 +4,11 @@ Une section par jour (`## AAAA-MM-JJ`), renommée « version — date » à la c
 
 <!-- nouvelles entrées sous cette ligne (ne pas déplacer : update.sh insère ici) -->
 
-## 2026-11-06
+## 2026.11.3 — 2026-11-06
 
 - Hello Elementor 3.5.1 → 3.5.2 (mis à jour hors `update.sh`, lock resynchronisé par `snapshot.sh`)
 - `new-site.sh` : skills copiés dans `app/public/.claude/skills/` (Claude Code ne remonte pas les `.claude/` parents hors d'un dépôt Git), avant les commandes WordPress pour qu'une erreur WP-CLI ne bloque plus la copie ; option `--claude-only` pour équiper un site existant sans `wp`
 - Skills : agent-skills eff3785 → 7374e6f (nouveau `wp-ability-development` ; `wordpress-router` y oriente la conception des abilities)
-
-## 2026-11-03
-
 - `new-site.sh` copie les skills dans `<site>/.claude/skills/` et crée `<site>/CLAUDE.md` (gabarit `config/client/CLAUDE.md`), hors du dossier public
 
 ## 2026.11.2 — 2026-11-02
