@@ -10,6 +10,6 @@ Personnalisation d'un nouveau site créé dans LocalWP à partir du blueprint wp
 3. Le mot de passe admin est affiché une seule fois : rappelle de le conserver ; ne l'écris nulle part.
 4. Rappelle les suites typiques : configurer les langues Polylang (FR/EN) si le site est bilingue ; coller le JSON-LD de `config/snippets/hfcm-jsonld-organisation.html` dans HFCM après l'avoir complété ; `blog_public` à passer à 1 seulement à la mise en ligne.
 
-Le script retire aussi le `.env` et le `.git` de la copie `starter/` du nouveau site (les skills et les scripts restent). Le vrai dépôt n'est jamais touché. Il copie les skills dans `<site>/.claude/skills/` et crée `<site>/CLAUDE.md` à partir de `config/client/CLAUDE.md`, sans écraser un fichier existant. Rappelle de lancer Claude Code depuis `app/public` et d'y déposer le `CLAUDE.md` du mandat, s'il y en a un.
+Le script retire aussi le `.env` et le `.git` de la copie `starter/` du nouveau site (les skills et les scripts restent). Le vrai dépôt n'est jamais touché. Il copie d'abord les skills dans `app/public/.claude/skills/` et crée `<site>/CLAUDE.md` à partir de `config/client/CLAUDE.md`, sans écraser un fichier existant. Si le site existe déjà et qu'il ne manque que ces outils, lance `scripts/new-site.sh --claude-only --path <site>/app/public` : ça ne touche ni au mot de passe ni à WordPress. Rappelle de lancer Claude Code depuis `app/public` et d'y déposer le `CLAUDE.md` du mandat, s'il y en a un.
 
 Ne modifie rien dans ce dépôt : ce qui concerne le site client vit dans le site client.

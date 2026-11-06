@@ -4,6 +4,10 @@ Une section par jour (`## AAAA-MM-JJ`), renommée « version — date » à la c
 
 <!-- nouvelles entrées sous cette ligne (ne pas déplacer : update.sh insère ici) -->
 
+## 2026-11-06
+
+- `new-site.sh` : skills copiés dans `app/public/.claude/skills/` (Claude Code ne remonte pas les `.claude/` parents hors d'un dépôt Git), avant les commandes WordPress pour qu'une erreur WP-CLI ne bloque plus la copie ; option `--claude-only` pour équiper un site existant sans `wp`
+
 ## 2026-11-03
 
 - `new-site.sh` copie les skills dans `<site>/.claude/skills/` et crée `<site>/CLAUDE.md` (gabarit `config/client/CLAUDE.md`), hors du dossier public

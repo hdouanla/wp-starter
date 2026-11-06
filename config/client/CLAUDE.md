@@ -7,8 +7,8 @@ Langue de travail : français (registre québécois), termes techniques en angla
 ```
 <site>/
 ├── CLAUDE.md          ← ce fichier
-├── .claude/skills/    skills WordPress (WordPress/agent-skills), hors du dossier public
 ├── app/public/        le WordPress du site ; lance Claude Code ici
+│   └── .claude/skills/  skills WordPress (WordPress/agent-skills) : à exclure du déploiement
 └── starter/           copie du starter à la création du site : référence seulement, sans Git
 ```
 
@@ -23,4 +23,4 @@ Utilise `wp-wpcli-and-ops` pour WP-CLI, `wp-project-triage` pour comprendre le s
 1. **Sauvegarde avant de toucher à la base** : `wp db export` avant une opération risquée, et demande un accord explicite pour toute opération destructive (`wp db reset`, `rm -rf`, suppression de contenu ou d'extensions).
 2. **Rien de propre à ce client dans `starter/`** : cette copie n'est pas le dépôt du starter et ne se met pas à jour.
 3. **Jamais de secrets dans un fichier** : ni mot de passe ni licence.
-4. **Mise en ligne** : `blog_public` reste à 0 en développement et passe à 1 seulement à la mise en ligne. Ne déploie que le contenu de `app/public/`.
+4. **Mise en ligne** : `blog_public` reste à 0 en développement et passe à 1 seulement à la mise en ligne. Ne déploie que le contenu de `app/public/`, sans `.claude/` ni les `CLAUDE.md`.

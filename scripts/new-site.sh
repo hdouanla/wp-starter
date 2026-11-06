@@ -7,9 +7,12 @@
 # Ou en précisant le site :
 #   scripts/new-site.sh --path ~/Local\ Sites/client-x/app/public --name "Client X"
 #
+# Réparer seulement les outils Claude Code d'un site existant (sans toucher à WordPress) :
+#   scripts/new-site.sh --claude-only [--path …/app/public]
+#
 # Refuse de s'exécuter sur le site starter lui-même (sauf --force).
 
-NAME=""; EMAIL=""; LOCALE=""; TARGET="$PWD"; FORCE=0
+NAME=""; EMAIL=""; LOCALE=""; TARGET="$PWD"; FORCE=0; CLAUDE_ONLY=0
 while (( $# )); do
   case "$1" in
     --name) NAME="$2"; shift ;;
@@ -17,13 +20,15 @@ while (( $# )); do
     --locale) LOCALE="$2"; shift ;;
     --path) TARGET="$2"; shift ;;
     --force) FORCE=1 ;;
+    --claude-only) CLAUDE_ONLY=1 ;;
     *) echo "Option inconnue : $1" >&2; exit 1 ;;
   esac
   shift
 done
-[[ -z "$NAME" ]] && { echo "Usage : new-site.sh --name \"Nom du client\" [--email ...] [--locale ...] [--path ...]" >&2; exit 1; }
+[[ -z "$NAME" && $CLAUDE_ONLY -eq 0 ]] && { echo "Usage : new-site.sh --name \"Nom du client\" [--email ...] [--locale ...] [--path ...]" >&2; exit 1; }
 
 export WP_PATH="$TARGET"
+(( CLAUDE_ONLY )) && export WPS_FILES_ONLY=1
 # shellcheck disable=SC1091
 source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 
@@ -32,7 +37,49 @@ if [[ -n "$STARTER_WP" && "$WP_PATH" == "$STARTER_WP" && $FORCE -eq 0 ]]; then
   die "Ce WordPress est le site starter ($WP_PATH). Lancer depuis le shell du nouveau site, ou --force."
 fi
 
+# --- Outils Claude Code du site -----------------------------------------------
+# Avant toute commande WordPress : une erreur wp-cli plus bas (set -e) ne doit pas empêcher la copie.
+# Skills dans app/public/.claude/skills : c'est là qu'on lance Claude Code, et il ne remonte pas
+# les .claude/ parents hors d'un dépôt Git. CLAUDE.md commun à la racine du site : Claude Code
+# lit les CLAUDE.md de tous les dossiers parents ; app/public/CLAUDE.md reste libre pour le mandat.
+# Rien n'est écrasé ; un échec n'arrête pas le script.
+SITE_DIR="$(dirname "$(dirname "$WP_PATH")")"
+install_claude_tools() {
+  local src="$STARTER_ROOT/.claude/skills" dst="$WP_PATH/.claude/skills" label="${NAME:-$(basename "$SITE_DIR")}"
+  if [[ "$WP_PATH" != */app/public || "$(basename "$SITE_DIR")" == "wp-starter" ]]; then
+    warn "Outils Claude Code : $WP_PATH n'est pas le app/public d'un site client, rien copié"
+    return 0
+  fi
+  if ! compgen -G "$src/*/SKILL.md" >/dev/null; then
+    warn "Skills absents de $src : rien à copier"
+  elif mkdir -p "$dst" && cp -R "$src/." "$dst/"; then
+    find "$dst" -name .DS_Store -delete 2>/dev/null || true
+    ok "Skills Claude Code copiés dans app/public/.claude/skills (agent-skills@$(cat "$dst/.agent-skills-commit" 2>/dev/null || echo '?'))"
+  else
+    warn "Skills Claude Code : copie échouée vers $dst"
+  fi
+  # Ancien emplacement (racine du site) : non chargé depuis app/public, on le signale.
+  [[ -d "$SITE_DIR/.claude/skills" ]] && info "$SITE_DIR/.claude/skills existe aussi (ancien emplacement) : peut être supprimé"
+
+  if [[ -e "$SITE_DIR/CLAUDE.md" ]]; then
+    info "CLAUDE.md du site déjà présent : conservé"
+  elif [[ ! -f "$CONFIG_DIR/client/CLAUDE.md" ]]; then
+    warn "Gabarit $CONFIG_DIR/client/CLAUDE.md absent : CLAUDE.md du site non créé"
+  elif { printf '# %s\n\n' "$label"; cat "$CONFIG_DIR/client/CLAUDE.md"; } > "$SITE_DIR/CLAUDE.md"; then
+    ok "CLAUDE.md créé à la racine du site"
+  else
+    warn "CLAUDE.md du site : écriture échouée"
+  fi
+}
+
+if (( CLAUDE_ONLY )); then
+  title "wp-starter · outils Claude Code"
+  install_claude_tools
+  exit 0
+fi
+
 title "wp-starter · nouveau site « $NAME »"
+install_claude_tools
 info "WordPress : $WP_PATH ($(wpc option get home))"
 
 # --- Identité ---------------------------------------------------------------
@@ -80,7 +127,6 @@ ok "Transients et caches purgés"
 # Le blueprint embarque starter/ : on garde les skills et les scripts, mais pas le .env
 # (licences, WP_PATH du starter) ni le .git (un push partirait vers le dépôt du starter).
 # Jamais sur le vrai dépôt : ni le dépôt qui exécute ce script, ni le site wp-starter, ni un lien.
-SITE_DIR="$(dirname "$(dirname "$WP_PATH")")"
 SITE_STARTER="$SITE_DIR/starter"
 if [[ -d "$SITE_STARTER" && ! -L "$SITE_STARTER" && "$(basename "$SITE_DIR")" != "wp-starter" \
       && "$(cd "$SITE_STARTER" && pwd -P)" != "$(cd "$STARTER_ROOT" && pwd -P)" ]]; then
@@ -95,30 +141,6 @@ if [[ -d "$SITE_STARTER" && ! -L "$SITE_STARTER" && "$(basename "$SITE_DIR")" !=
     else
       warn "starter/.git conservé : ce n'est pas une copie du dépôt wp-starter"
     fi
-  fi
-fi
-
-# --- Outils Claude Code du site -----------------------------------------------
-# À la racine du site, hors de app/public : Claude Code les trouve depuis app/public et ils ne
-# partent pas en ligne. Un échec n'arrête pas le script : le mot de passe reste à afficher.
-if [[ "$WP_PATH" == */app/public && "$(basename "$SITE_DIR")" != "wp-starter" ]]; then
-  if ! compgen -G "$STARTER_ROOT/.claude/skills/*/SKILL.md" >/dev/null; then
-    warn "Skills absents de $STARTER_ROOT/.claude/skills : rien à copier"
-  elif mkdir -p "$SITE_DIR/.claude/skills" && cp -R "$STARTER_ROOT/.claude/skills/." "$SITE_DIR/.claude/skills/"; then
-    find "$SITE_DIR/.claude/skills" -name .DS_Store -delete 2>/dev/null || true
-    ok "Skills Claude Code copiés dans .claude/skills (agent-skills@$(cat "$SITE_DIR/.claude/skills/.agent-skills-commit" 2>/dev/null || echo '?'))"
-  else
-    warn "Skills Claude Code : copie échouée vers $SITE_DIR/.claude/skills"
-  fi
-
-  if [[ -e "$SITE_DIR/CLAUDE.md" ]]; then
-    info "CLAUDE.md du site déjà présent : conservé"
-  elif [[ ! -f "$CONFIG_DIR/client/CLAUDE.md" ]]; then
-    warn "Gabarit $CONFIG_DIR/client/CLAUDE.md absent : CLAUDE.md du site non créé"
-  elif { printf '# %s\n\n' "$NAME"; cat "$CONFIG_DIR/client/CLAUDE.md"; } > "$SITE_DIR/CLAUDE.md"; then
-    ok "CLAUDE.md créé à la racine du site"
-  else
-    warn "CLAUDE.md du site : écriture échouée"
   fi
 fi
 

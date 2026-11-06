@@ -108,8 +108,11 @@ require_clean_php() {
 }
 
 prefer_localwp_php
-require_cmd wp php
-require_clean_php
+# WPS_FILES_ONLY=1 : l'appelant ne touche qu'aux fichiers (ex. new-site.sh --claude-only).
+if [[ -z "${WPS_FILES_ONLY:-}" ]]; then
+  require_cmd wp php
+  require_clean_php
+fi
 
 # Wrapper WP-CLI : toujours sur le bon site, sans couleurs ni interactions.
 wpc() { wp --path="$WP_PATH" --no-color "$@"; }
