@@ -15,7 +15,7 @@
     "theme": {
         "slug": "hello-elementor",
         "name": "Hello Elementor",
-        "version": "3.5.1",
+        "version": "3.5.2",
         "source": "wporg",
         "activate": true
     },
@@ -23,5 +23,5 @@
         "slug": "twentytwentyfive",
         "$comment": "Un thème par défaut WordPress est conservé comme filet de sécurité ; les autres thèmes par défaut sont supprimés."
     },
-    "snapshot_at": "2026-11-03"
+    "snapshot_at": "2026-11-06"
 }
