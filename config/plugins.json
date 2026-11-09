@@ -74,6 +74,22 @@
             "activate": true
         },
         {
+            "slug": "site-offline",
+            "name": "Site Offline",
+            "version": "1.5.7",
+            "source": "wporg",
+            "update_check": "wporg",
+            "activate": true
+        },
+        {
+            "slug": "wps-hide-login",
+            "name": "WPS Hide Login",
+            "version": "1.9.19",
+            "source": "wporg",
+            "update_check": "wporg",
+            "activate": true
+        },
+        {
             "slug": "wpvivid-backuprestore",
             "name": "WPvivid Backup Plugin",
             "version": "0.9.140",

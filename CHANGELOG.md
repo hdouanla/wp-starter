@@ -11,6 +11,9 @@ Une section par jour (`## AAAA-MM-JJ`), renommée « version — date » à la c
 - Polylang 3.9.1 → 3.9.2
 - WPvivid Backup Plugin 0.9.139 → 0.9.140
 - Novamira 1.12.14 → 1.12.15
+- Ajout : Site Offline 1.5.7 (activé, mode maintenance éteint par défaut)
+- Ajout : WPS Hide Login 1.9.19 (activé ; la connexion passe par `/login/`, `/wp-login.php` répond 404 — adresse à personnaliser sur chaque site client)
+- `verify.sh` contrôle l'adresse de connexion réelle (`wp_login_url()`) plutôt que `/wp-login.php`
 
 ## 2026.11.3 — 2026-11-06
 

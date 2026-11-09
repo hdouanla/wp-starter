@@ -14,7 +14,7 @@ Langue de travail : français (registre québécois), termes techniques en angla
 
 ## Stack
 
-Thème Hello Elementor, Elementor Pro, Yoast SEO, Polylang (souvent FR/EN), Header Footer Code Manager, Classic Editor, Disable Comments, WPvivid, Novamira. Gabarit JSON-LD à compléter puis à coller dans HFCM : `starter/config/snippets/hfcm-jsonld-organisation.html`.
+Thème Hello Elementor, Elementor Pro, Yoast SEO, Polylang (souvent FR/EN), Header Footer Code Manager, Classic Editor, Disable Comments, Site Offline (mode maintenance), WPS Hide Login (connexion par `/login/` par défaut, pas `/wp-login.php`), WPvivid, Novamira. Gabarit JSON-LD à compléter puis à coller dans HFCM : `starter/config/snippets/hfcm-jsonld-organisation.html`.
 
 Utilise `wp-wpcli-and-ops` pour WP-CLI, `wp-project-triage` pour comprendre le site et `wp-performance` pour la performance. Lance `wp` depuis le « Open site shell » de LocalWP : un autre terminal peut utiliser un autre PHP (`php -v` pour vérifier).
 

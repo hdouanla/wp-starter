@@ -128,7 +128,11 @@ fi
 # --- 6. Réponse HTTP --------------------------------------------------------
 SITE_URL="${SITE_URL:-$(wpc option get home)}"
 if command -v curl >/dev/null 2>&1; then
-  for path in "/" "/wp-login.php"; do
+  # Page de connexion : l'adresse réelle (WPS Hide Login remplace /wp-login.php, qui répond alors 404).
+  LOGIN_URL="$(wpc eval 'echo wp_login_url();' 2>/dev/null || true)"
+  LOGIN_PATH="${LOGIN_URL#"$(wpc option get siteurl)"}"
+  [[ "$LOGIN_PATH" == /* ]] || LOGIN_PATH="/wp-login.php"
+  for path in "/" "$LOGIN_PATH"; do
     code="$(curl -sk -o /dev/null -w '%{http_code}' --max-time 20 "${SITE_URL}${path}" 2>/dev/null || true)"
     [[ -z "$code" ]] && code=000
     body="$(curl -sk --max-time 20 "${SITE_URL}${path}" 2>/dev/null || true)"

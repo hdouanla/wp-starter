@@ -17,7 +17,7 @@ Site LocalWP vierge ───────────────▶ site wp-sta
 |-----------|--------|
 | WordPress | version épinglée dans `config/stack.json`, langue `fr_CA`, fuseau `America/Toronto` |
 | Thème | Hello Elementor (+ Twenty Twenty-Five conservé comme filet de sécurité) |
-| Extensions | Elementor, Elementor Pro*, Yoast SEO, Header Footer Code Manager, Polylang, Connect Polylang for Elementor, Classic Editor, Disable Comments, WPvivid Backup, Novamira** — versions dans `config/plugins.json` |
+| Extensions | Elementor, Elementor Pro*, Yoast SEO, Header Footer Code Manager, Polylang, Connect Polylang for Elementor, Classic Editor, Disable Comments, Site Offline, WPS Hide Login, WPvivid Backup, Novamira** — versions dans `config/plugins.json` |
 | Réglages | permaliens `/%postname%/`, commentaires fermés, non indexé (`blog_public = 0`), contenu d'exemple supprimé, Elementor sans couleurs/polices par défaut, upload SVG — détail dans `config/settings.json`. Mises à jour automatiques du cœur coupées sur le starter seulement |
 | Compte | `repotzadmin`, mot de passe généré et affiché une seule fois. Barre d'outils masquée sur le site (« Show Toolbar when viewing site » décoché) pour les comptes existants à l'installation |
 | Contenu | aucun (pages, menus et langues Polylang se font par site) |
