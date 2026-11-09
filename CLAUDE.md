@@ -50,7 +50,7 @@ Hors de ces procédures, préfère les scripts aux commandes WP-CLI à la main :
 7. **CHANGELOG** : une section par jour (`## AAAA-MM-JJ`), transformée en `## version — date` par `/release`. `update.sh` y écrit automatiquement ; complète à la main pour le reste (ajouts, retraits, réglages).
 8. **Le blueprint se régénère à la main** dans LocalWP (« Save as Blueprint »). Rappelle-le à la fin de `/update` et de `/release`. Tu ne peux pas le faire toi-même.
 9. **Destructif = interdit sans accord explicite** : `wp db reset`, suppression d'extensions non listées dans `remove_if_present`, `rm -rf`, `git push --force`.
-10. **Skills WordPress** (`.claude/skills/`) : utilise `wp-wpcli-and-ops` pour tout ce qui touche WP-CLI, `wp-project-triage` si tu dois comprendre un site, `wp-performance` pour des réglages de performance. Ils viennent de WordPress/agent-skills ; `scripts/setup-skills.sh` les met à niveau.
+10. **Skills WordPress** (`.claude/skills/`) : utilise `wp-wpcli-and-ops` pour tout ce qui touche WP-CLI, `wp-project-triage` si tu dois comprendre un site, `wp-performance` pour des réglages de performance. Ils viennent de WordPress/agent-skills ; `scripts/setup-skills.sh` les met à niveau et les recopie dans `app/public/.claude/skills/` (embarqués par le blueprint).
 
 ## Conventions du lock (`config/plugins.json`)
 

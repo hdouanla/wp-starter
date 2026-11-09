@@ -50,14 +50,13 @@ install_claude_tools() {
     warn "Outils Claude Code : $WP_PATH n'est pas le app/public d'un site client, rien copié"
     return 0
   fi
-  if ! compgen -G "$src/*/SKILL.md" >/dev/null; then
-    warn "Skills absents de $src : rien à copier"
-  elif mkdir -p "$dst" && cp -R "$src/." "$dst/"; then
-    find "$dst" -name .DS_Store -delete 2>/dev/null || true
-    ok "Skills Claude Code copiés dans app/public/.claude/skills (agent-skills@$(cat "$dst/.agent-skills-commit" 2>/dev/null || echo '?'))"
-  else
-    warn "Skills Claude Code : copie échouée vers $dst"
-  fi
+  local rc=0
+  copy_skills_to "$WP_PATH" || rc=$?
+  case "$rc" in
+    0) ok "Skills Claude Code copiés dans app/public/.claude/skills (agent-skills@$(cat "$dst/.agent-skills-commit" 2>/dev/null || echo '?'))" ;;
+    2) warn "Skills absents de $src : rien à copier" ;;
+    *) warn "Skills Claude Code : copie échouée vers $dst" ;;
+  esac
   # Ancien emplacement (racine du site) : non chargé depuis app/public, on le signale.
   [[ -d "$SITE_DIR/.claude/skills" ]] && info "$SITE_DIR/.claude/skills existe aussi (ancien emplacement) : peut être supprimé"
 

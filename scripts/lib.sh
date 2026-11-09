@@ -171,6 +171,26 @@ premium_zip_for() {
   echo "$best"
 }
 
+# Copie les skills du dépôt dans <wordpress>/.claude/skills : c'est là qu'on lance Claude Code,
+# et il ne remonte pas les .claude/ parents hors d'un dépôt Git.
+#   copy_skills_to <chemin app/public> [mirror]
+# mirror : retire aussi de la cible les skills disparus du dépôt (starter seulement ; sur un site
+# client, on n'efface rien). Retour : 0 copié, 1 copie échouée, 2 skills absents du dépôt.
+copy_skills_to() {
+  local src="$STARTER_ROOT/.claude/skills" dst="$1/.claude/skills" mode="${2:-}" d
+  compgen -G "$src/*/SKILL.md" >/dev/null || return 2
+  mkdir -p "$dst" || return 1
+  cp -R "$src/." "$dst/" || return 1
+  if [[ "$mode" == "mirror" ]]; then
+    for d in "$dst"/*/; do
+      [[ -d "$d" ]] || continue
+      [[ -d "$src/$(basename "$d")" ]] || rm -rf "$d"
+    done
+  fi
+  find "$dst" -name .DS_Store -delete 2>/dev/null || true
+  return 0
+}
+
 # Génération d'un mot de passe fort (24 caractères)
 gen_password() {
   php -r '$a = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789!@#%^*_+="; $o = ""; for ($i = 0; $i < 24; $i++) { $o .= $a[random_int(0, strlen($a) - 1)]; } echo $o;'

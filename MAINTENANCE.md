@@ -86,10 +86,11 @@ Cycle manuel type pour Novamira : `/status` l'affiche « vérifier chez le fourn
 ## Mettre à niveau les skills WordPress de Claude Code
 
 ```bash
-scripts/setup-skills.sh     # remplace .claude/skills/ par la version trunk de WordPress/agent-skills
+scripts/setup-skills.sh          # remplace .claude/skills/ par la version trunk de WordPress/agent-skills
+scripts/setup-skills.sh --local  # sans téléchargement : recopie seulement dans app/public/.claude/skills
 ```
 
-Les skills sont versionnés dans ce dépôt, donc inclus dans le blueprint sans téléchargement à l'installation. `check-updates.sh` signale quand `trunk` a avancé ; la mise à niveau se fait à `/release`, après relecture du diff.
+Les skills sont versionnés dans ce dépôt, et `install.sh` comme `setup-skills.sh` les recopient dans `app/public/.claude/skills/` du starter : le blueprint les embarque là où Claude Code les charge, et un site créé depuis le blueprint les a dès sa création. `verify.sh` signale une copie absente ou différente du dépôt. `check-updates.sh` signale quand `trunk` a avancé ; la mise à niveau se fait à `/release`, après relecture du diff.
 
 ## Versions et blueprints
 
@@ -104,7 +105,7 @@ Les skills sont versionnés dans ce dépôt, donc inclus dans le blueprint sans 
 | `scripts/check-updates.sh [--json]` | Interroge WordPress.org et les updaters tiers ; compare au lock. Ne modifie rien. |
 | `scripts/update.sh [--plugin s] [--core] [--theme]` | Sauvegarde SQL → mises à jour → `verify.sh` → lock → CHANGELOG. |
 | `scripts/snapshot.sh` | Réaligne le lock sur ce qui est installé (après une action manuelle dans wp-admin). |
-| `scripts/setup-skills.sh [--ref trunk]` | Met à niveau `.claude/skills/`. |
+| `scripts/setup-skills.sh [--ref trunk] [--local]` | Met à niveau `.claude/skills/` et le recopie dans `app/public/.claude/skills/`. `--local` : recopie seulement. |
 | `scripts/php/*.php` | Logique exécutée dans WordPress via `wp eval-file` (réglages, vérification des mises à jour, snapshot). |
 
 `install.sh`, `verify.sh` et `new-site.sh` sont décrits dans le `README.md`.

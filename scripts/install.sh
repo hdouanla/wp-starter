@@ -143,7 +143,19 @@ if ! (( DRY_RUN )); then
 fi
 ok "Barre d'outils masquée sur le site pour les comptes existants"
 
-# --- 6. Bilan ----------------------------------------------------------------
+# --- 6. Skills Claude Code -----------------------------------------------------
+# Dans app/public du starter, pour que le blueprint les embarque : un site créé depuis le
+# blueprint les a dès sa création, avant même new-site.sh.
+title "Skills Claude Code"
+if (( DRY_RUN )); then
+  info "copierait .claude/skills dans $WP_PATH/.claude/skills"
+elif copy_skills_to "$WP_PATH" mirror; then
+  ok "Skills copiés dans app/public/.claude/skills (agent-skills@$(cat "$WP_PATH/.claude/skills/.agent-skills-commit" 2>/dev/null || echo '?'))"
+else
+  warn "Skills non copiés dans $WP_PATH/.claude/skills (absents du dépôt, ou copie échouée) : scripts/setup-skills.sh --local"
+fi
+
+# --- 7. Bilan ----------------------------------------------------------------
 title "Bilan"
 wpc plugin list --fields=name,status,version
 echo

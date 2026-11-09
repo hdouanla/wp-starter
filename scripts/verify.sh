@@ -152,6 +152,14 @@ if compgen -G "$STARTER_ROOT/.claude/skills/*/SKILL.md" >/dev/null; then
 else
   check_warn "skills Claude Code absents de .claude/skills/ (git checkout -- .claude/skills, ou scripts/setup-skills.sh)"
 fi
+# Copie dans app/public : c'est elle que le blueprint embarque et que Claude Code charge sur un site.
+if ! compgen -G "$WP_PATH/.claude/skills/*/SKILL.md" >/dev/null; then
+  check_warn "skills Claude Code absents de app/public/.claude/skills (scripts/setup-skills.sh --local)"
+elif ! diff -rq -x .DS_Store "$STARTER_ROOT/.claude/skills" "$WP_PATH/.claude/skills" >/dev/null 2>&1; then
+  check_warn "skills de app/public/.claude/skills différents de ceux du dépôt (scripts/setup-skills.sh --local)"
+else
+  check_ok "skills Claude Code copiés dans app/public/.claude/skills"
+fi
 
 # --- Bilan ------------------------------------------------------------------
 echo

@@ -14,6 +14,7 @@ Une section par jour (`## AAAA-MM-JJ`), renommée « version — date » à la c
 - Ajout : Site Offline 1.5.7 (activé, mode maintenance éteint par défaut)
 - Ajout : WPS Hide Login 1.9.19 (activé ; la connexion passe par `/login/`, `/wp-login.php` répond 404 — adresse à personnaliser sur chaque site client)
 - `verify.sh` contrôle l'adresse de connexion réelle (`wp_login_url()`) plutôt que `/wp-login.php`
+- Skills copiés dans `app/public/.claude/skills/` du starter, donc embarqués par le blueprint : un site créé depuis le blueprint les a sans attendre `new-site.sh`. Copie faite par `install.sh` et `setup-skills.sh` (nouvelle option `--local` : recopie sans téléchargement), contrôlée par `verify.sh`
 
 ## 2026.11.3 — 2026-11-06
 
