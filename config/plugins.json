@@ -4,7 +4,7 @@
         {
             "slug": "elementor",
             "name": "Elementor",
-            "version": "4.3.6",
+            "version": "4.4.0",
             "source": "wporg",
             "update_check": "wporg",
             "activate": true
@@ -12,7 +12,7 @@
         {
             "slug": "elementor-pro",
             "name": "Elementor Pro",
-            "version": "4.3.3",
+            "version": "4.4.0",
             "source": "zip",
             "update_check": "license",
             "vendor_url": "https://my.elementor.com/subscriptions/",
@@ -40,7 +40,7 @@
         {
             "slug": "polylang",
             "name": "Polylang",
-            "version": "3.9.1",
+            "version": "3.9.2",
             "source": "wporg",
             "update_check": "wporg",
             "activate": true
@@ -76,7 +76,7 @@
         {
             "slug": "wpvivid-backuprestore",
             "name": "WPvivid Backup Plugin",
-            "version": "0.9.139",
+            "version": "0.9.140",
             "source": "wporg",
             "update_check": "wporg",
             "activate": true
@@ -84,7 +84,7 @@
         {
             "slug": "novamira",
             "name": "Novamira",
-            "version": "1.12.14",
+            "version": "1.12.15",
             "source": "zip",
             "update_check": "manual",
             "vendor_url": "https://novamira.ai/",

@@ -4,6 +4,14 @@ Une section par jour (`## AAAA-MM-JJ`), renommée « version — date » à la c
 
 <!-- nouvelles entrées sous cette ligne (ne pas déplacer : update.sh insère ici) -->
 
+## 2026-11-09
+
+- Elementor 4.3.6 → 4.4.0
+- Elementor Pro 4.3.3 → 4.4.0
+- Polylang 3.9.1 → 3.9.2
+- WPvivid Backup Plugin 0.9.139 → 0.9.140
+- Novamira 1.12.14 → 1.12.15
+
 ## 2026.11.3 — 2026-11-06
 
 - Hello Elementor 3.5.1 → 3.5.2 (mis à jour hors `update.sh`, lock resynchronisé par `snapshot.sh`)
